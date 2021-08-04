@@ -18,7 +18,7 @@ public class PlayerJoin implements Listener {
         this.dataManager = plugin.getDataManager();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(final PlayerJoinEvent e) {
         final Player p = e.getPlayer();
         this.dataManager.loadPlayerData(p.getUniqueId());

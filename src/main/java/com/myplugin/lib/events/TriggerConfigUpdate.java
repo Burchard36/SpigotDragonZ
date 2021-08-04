@@ -6,27 +6,13 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
-public class TriggerDataUpdate extends Event implements Cancellable {
+public class TriggerConfigUpdate extends Event implements Cancellable {
 
     public static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCanceled;
-    private final UUID uuid;
-    private final PlayerData data;
 
-    public TriggerDataUpdate(final UUID uuid, final PlayerData data) {
-        this.uuid = uuid;
-        this.data = data;
+    public TriggerConfigUpdate() {
         this.isCanceled = false;
-    }
-
-    public final UUID getUUID() {
-        return this.uuid;
-    }
-
-    public final PlayerData getData() {
-        return this.data;
     }
 
     @Override

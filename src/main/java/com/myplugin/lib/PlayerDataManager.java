@@ -110,15 +110,19 @@ public class PlayerDataManager implements Listener {
     }
 
     private PlayerData getDefaultData(final UUID uuid) {
-        JsonObject obj = new JsonObject();
+        final JsonObject obj = new JsonObject();
         obj.addProperty("strength", 1);
         obj.addProperty("race", Race.NONE.toString());
         obj.addProperty("currentKi", 50);
         obj.addProperty("maxKi", 100);
-        obj.addProperty("talentPoints", 0);
-        obj.addProperty("totalTalentPointsSpent", 0);
         obj.addProperty("level", 1);
         obj.addProperty("currentExp", 0);
+        final JsonObject obj2 = new JsonObject();
+        obj2.addProperty("totalTalentPointsSpent", 0);
+        obj2.addProperty("talentPoints", 0);
+        obj2.addProperty("strength", 0);
+        obj2.addProperty("kiMax", 0);
+
         return new PlayerData(obj, this.plugin, uuid);
     }
 

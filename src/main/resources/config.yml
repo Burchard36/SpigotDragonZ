@@ -5,12 +5,20 @@ GameSettings:
   # This
   BaseMaxExp: 100
 
-  # Talent points to give per level
-  # DO NOTE: This will GIVE players the TP they would have gotten from levels if you
-  # DO increase this number, this will not scale downwards as it would involve removing
-  # players stats and that's far too complex to justify adding in, I will add an option
-  # to NOT add TP (TalentPoints) if someone requests it.
-  TalentPointsPerLevel: 3
+  TalentPointSettings:
+
+    # Talent points to give per level
+    # DO NOTE: This will GIVE players the TP they would have gotten from levels if you
+    # DO increase this number, this will not scale downwards as it would involve removing
+    # players stats and that's far too complex to justify adding in, I will add an option
+    # to NOT add TP (TalentPoints) if someone requests it.
+    TalentPointsPerLevel: 3
+
+    # For ever 1 point added to Strength, this many points are added to the base stats
+    StrengthIncrease: 2
+
+    # For ever 1 point added to MaxKi, this many points are added to the base stats
+    KiMaxIncrease: 25
 
 DataSettings:
 
