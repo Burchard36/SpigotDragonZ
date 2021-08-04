@@ -1,0 +1,18 @@
+GameSettings:
+  # This is an increase as a percentage
+  LevelExpIncrease: 20
+
+  # This
+  BaseMaxExp: 100
+
+  # Talent points to give per level
+  # DO NOTE: This will GIVE players the TP they would have gotten from levels if you
+  # DO increase this number, this will not scale downwards as it would involve removing
+  # players stats and that's far too complex to justify adding in, I will add an option
+  # to NOT add TP (TalentPoints) if someone requests it.
+  TalentPointsPerLevel: 3
+
+DataSettings:
+
+  # The interval time to automatically save PlayerData from the cache (in minutes);
+  SaveCacheInterval: 5

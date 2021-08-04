@@ -17,6 +17,7 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
         this.dataManager = new PlayerDataManager(this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoin(this), this);
 
@@ -31,6 +32,10 @@ public final class MyPlugin extends JavaPlugin {
 
     public static String ofString(final String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
+    }
+
+    public static int getPercentOf(final int toGet, final int percentage) {
+        return (int)(toGet * (percentage / 100.0f));
     }
 
     /**
