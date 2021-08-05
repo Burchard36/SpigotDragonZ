@@ -3,12 +3,15 @@ package com.myplugin.lib.dragonball.gui;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 import static com.myplugin.MyPlugin.ofString;
 
@@ -20,10 +23,17 @@ public abstract class Gui {
         this.inventory = Bukkit.createInventory(holder, slots, Component.text(ofString(name)));
     }
 
-    @EventHandler
+    public void fillEmptyWith(final ItemStack stack) {
+        for (int x = 0; x <= this.inventory.getSize() - 1; x++) {
+            if (this.inventory.getItem(x) == null) {
+                this.inventory.setItem(x, stack);
+            } else if (Objects.requireNonNull(this.inventory.getItem(x)).getType() == Material.AIR) {
+                this.inventory.setItem(x, stack);
+            }
+        }
+    }
+
     public abstract void onThisInventoryClick(final InventoryClickEvent e);
-    @EventHandler
     public abstract void onThisInventoryClose(final InventoryCloseEvent e);
-    @EventHandler
     public abstract void onThisInventoryOwnerLeave(final PlayerQuitEvent e);
 }

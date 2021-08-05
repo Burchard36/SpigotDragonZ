@@ -17,10 +17,12 @@ import static com.myplugin.MyPlugin.ofString;
 public class RaceCommand extends DragonBallCommand {
 
     private final PlayerDataManager manager;
+    private final MyPlugin plugin;
 
     public RaceCommand(final MyPlugin plugin) {
         super("race", "View, create or change race", "/race");
-        this.manager = plugin.getDataManager();
+        this.plugin = plugin;
+        this.manager = this.plugin.getDataManager();
         plugin.registerCommand("race", this);
     }
 
@@ -32,7 +34,7 @@ public class RaceCommand extends DragonBallCommand {
     @Override
     public void onCommand(final Player player, final List<String> args) {
         final PlayerData playerData = this.manager.getPlayerData(player.getUniqueId());
-        final Inventory inventory = new RaceGui(playerData).getInventory();
+        final Inventory inventory = new RaceGui(playerData, this.plugin).inventory;
         player.openInventory(inventory);
     }
 }

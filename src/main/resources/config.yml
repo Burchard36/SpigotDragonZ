@@ -14,13 +14,69 @@ GameSettings:
     # to NOT add TP (TalentPoints) if someone requests it.
     TalentPointsPerLevel: 3
 
-    # For ever 1 point added to Strength, this many points are added to the base stats
-    StrengthIncrease: 2
+    Race:
+      SAIYAN:
+        # For every 1 skill point spent on Strength, this amount is added to overall stats
+        StrInc: 4
+        # For every 1 skill point spent on Defence, this amount is added to overall stats
+        DefInc: 3
+        # For every 1 skill point spent on MaxKi, this amount is added to overall stats
+        MaxKiInc: 20
+        # For every 1 skill point spent on KiPower, this amount is added to overall stats
+        KiPowInc: 4
+        # For every 1 skill point spent on MaxHp, this amount is added to overall stats
+        MaxHpInc: 3
+        # For every 1 skill point spent on Stamina, this amount is added to overall stats
+        StamInc: 2
 
-    # For ever 1 point added to MaxKi, this many points are added to the base stats
-    KiMaxIncrease: 25
+        PerLevel:
+          # Every level, this Strength is added to the overall stat
+          StrInc: 2
+          # Every level, this Defense is added to the overall stat
+          DefInc: 1
+          # Every level, this MaxKi is added to the overall stat
+          MaxKiInc: 5
+          # Every level, this Ki Power is added to the overall stat
+          KiPowInc: 2
+          # Every level, this MaxHP is added to the overall stat
+          MaxHpInc: 1
+          # Every level, this stamina is added to the overall stat
+          StamInc: 1
+      HALF_SAIYAN:
+        # For every 1 skill point spent on Strength, this amount is added to overall stats
+        StrInc: 3
+        # For every 1 skill point spent on Defence, this amount is added to overall stats
+        DefInc: 4
+        # For every 1 skill point spent on MaxKi, this amount is added to overall stats
+        MaxKiInc: 30
+        # For every 1 skill point spent on KiPower, this amount is added to overall stats
+        KiPowInc: 3
+        # For every 1 skill point spent on MaxHp, this amount is added to overall stats
+        MaxHpInc: 25
+        # For every 1 skill point spent on Stamina, this amount is added to overall stats
+        StamInc: 3
+        PerLevel:
+          # Every level, this Strength is added to the overall stat
+          StrInc: 1
+          # Every level, this Defense is added to the overall stat
+          DefInc: 1
+          # Every level, this MaxKi is added to the overall stat
+          MaxKiInc: 10
+          # Every level, this Ki Power is added to the overall stat
+          KiPowInc: 1
+          # Every level, this MaxHP is added to the overall stat
+          MaxHpInc: 2
+          # Every level, this stamina is added to the overall stat
+          StamInc: 2
 
 DataSettings:
 
   # The interval time to automatically save PlayerData from the cache (in minutes);
   SaveCacheInterval: 5
+
+DevelopmentSettings:
+
+  # More verbose logging, use this if you would like to get notified in console
+  # Of almost everything that happens with the plugin (Data saving, Data Creating, certain plugin events/commands and
+  # actions)
+  Debug: true

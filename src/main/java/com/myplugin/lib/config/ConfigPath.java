@@ -1,10 +1,14 @@
-package com.myplugin.lib;
+package com.myplugin.lib.config;
 
 public enum ConfigPath {
 
     TALENT_POINTS_PER_LEVEL("GameSettings.TalentPointSettings.TalentPointsPerLevel"),
     MAX_BASE_EXP("GameSettings.BaseMaxExp"),
-    EXP_INCREASE_PER_LEVEL("GameSettings.LevelExpIncrease");
+    EXP_INCREASE_PER_LEVEL("GameSettings.LevelExpIncrease"),
+
+    DEBUG_MODE("DevelopmentSettings.Debug"),
+
+    SAVE_CACHE_INTERVAL("DataSettings.SaveCacheInterval");
 
     private final String path;
 
