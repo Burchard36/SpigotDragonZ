@@ -2,11 +2,12 @@ package com.myplugin;
 
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.command.commands.RaceCommand;
-import com.myplugin.events.PlayerJoin;
+import com.myplugin.events.PlayerTakesDamage;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.PlayerDataManager;
 import com.myplugin.lib.config.ConfigPath;
 import com.myplugin.lib.events.TriggerConfigUpdate;
+import com.myplugin.lib.hud.BossBarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
@@ -19,6 +20,7 @@ import java.lang.reflect.Field;
 public final class MyPlugin extends JavaPlugin implements Listener {
 
     private PlayerDataManager dataManager;
+    private BossBarManager barManager;
     public static boolean DEBUG;
 
 
@@ -31,8 +33,10 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         Logger.debug("Initializing PlayerDataManager. . .");
         this.dataManager = new PlayerDataManager(this);
 
-        Logger.debug("Loading event PlayerJoin");
-        Bukkit.getPluginManager().registerEvents(new PlayerJoin(this), this);
+        Logger.debug("Loading event BossBarManager");
+        this.barManager = new BossBarManager(this);
+        Logger.debug("Loading event PlayerDamageEvent");
+        new PlayerTakesDamage(this);
 
         Logger.debug("Loading command RaceCommand");
         new RaceCommand(this);
@@ -58,10 +62,15 @@ public final class MyPlugin extends JavaPlugin implements Listener {
     }
 
     public static int getPercentOf(final int toGet, final int percentage) {
-        return (int)(toGet * (percentage / 100.0f));
+        return (int)((toGet * (percentage / 100.0f)) * 100);
+    }
+
+    public static double getDoublePercentOf(final int toGet, final int percentage) {
+        return ((toGet * (percentage / 100.0f)));
     }
 
     /**
+     * Registers a command to the Reflected CommandMap
      * @param commandName name of the command
      * @param command DragonBallCommand command to load
      */
@@ -83,5 +92,13 @@ public final class MyPlugin extends JavaPlugin implements Listener {
      */
     public final PlayerDataManager getDataManager() {
         return this.dataManager;
+    }
+
+    /**
+     * Gets the BossBarManager instance of this plugin
+     * @return BossBarManager
+     */
+    public final BossBarManager getBarManager() {
+        return this.barManager;
     }
 }

@@ -39,7 +39,7 @@ GameSettings:
           # Every level, this Ki Power is added to the overall stat
           KiPowInc: 2
           # Every level, this MaxHP is added to the overall stat
-          MaxHpInc: 1
+          MaxHpInc: 10
           # Every level, this stamina is added to the overall stat
           StamInc: 1
       HALF_SAIYAN:

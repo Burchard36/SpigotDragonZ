@@ -21,6 +21,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.myplugin.MyPlugin.ofString;
 
 public class RaceGui extends Gui implements Listener {
@@ -49,27 +52,33 @@ public class RaceGui extends Gui implements Listener {
 
     public final ItemStack getCurrentRaceStack() {
         String itemName = "";
+        final List<Component> lore = new ArrayList<>();
         Material material = Material.WHITE_DYE;
         switch (this.playerRace) {
             case SAIYAN: {
                 itemName = "&3&lYour Race: &6&lSaiyan";
                 material = Material.YELLOW_DYE;
+                lore.add(Component.text(ofString("&f ")));
                 break;
             }
             case HALF_SAIYAN: {
                 itemName = "&3&lYour Race: &e&lHalf&r&l-&6&lSaiyan";
                 material = Material.ORANGE_DYE;
+                lore.add(Component.text(ofString("&f ")));
                 break;
             }
             case NONE: {
                 itemName = "&e&lYou have not selected a race! Select one below!";
                 material = Material.WHITE_DYE;
+                lore.add(Component.text(ofString("&f ")));
+                lore.add(Component.text(ofString("&e&oLeft-Click&7 To select your race!")));
                 break;
             }
         }
         final ItemStack stack = new ItemStack(material, 1);
         final ItemMeta meta = stack.getItemMeta();
         meta.displayName(Component.text(ofString(itemName)));
+        meta.lore(lore);
         stack.setItemMeta(meta);
         return stack;
     }
