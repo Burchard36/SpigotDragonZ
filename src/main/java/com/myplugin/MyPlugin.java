@@ -3,7 +3,6 @@ package com.myplugin;
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.command.commands.RaceCommand;
 import com.myplugin.events.PlayerAttackEvent;
-import com.myplugin.events.PlayerTakesDamage;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.PlayerDataManager;
 import com.myplugin.lib.config.ConfigPath;
@@ -39,8 +38,6 @@ public final class MyPlugin extends JavaPlugin implements Listener {
 
         Logger.debug("Loading event BossBarManager");
         this.barManager = new BossBarManager(this);
-        Logger.debug("Loading event PlayerDamageEvent");
-        new PlayerTakesDamage(this);
         Logger.debug("Loading event PlayerAttackEvent");
         new PlayerAttackEvent(this);
 

@@ -28,16 +28,43 @@ public class PlayerAttackEvent implements Listener {
 
     @EventHandler
     public void onEntityDamage(final EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player) {
+
+        final boolean playerHitsMob = e.getDamager() instanceof Player && !(e.getEntity() instanceof Player);
+        final boolean playerHitsPlayer = e.getEntity() instanceof Player && e.getDamager() instanceof Player;
+        final boolean mobHitsPlayer = !(e.getDamager() instanceof Player) && e.getEntity() instanceof Player;
+
+        if (playerHitsMob) {
             final Player p = (Player) e.getDamager();
             final PlayerData data = this.manager.getPlayerData(p.getUniqueId());
             final int damage = data.calculateDamage();
             Logger.debug("Player with UUID: " + p.getUniqueId().toString() + " dealt " + damage + " to " + e.getEntity().getType().toString());
             e.setDamage(damage);
+            this.spawnParticle(e.getEntity());
 
-            final Location loc = e.getEntity().getLocation();
-            final World world = loc.getWorld();
-            world.spawnParticle(Particle.CRIT_MAGIC, loc, 10);
+        } else if (playerHitsPlayer) {
+            final Player hurtPlayer = (Player) e.getEntity();
+            final Player attackingPlayer = (Player) e.getEntity();
+            final PlayerData attacker = this.manager.getPlayerData(attackingPlayer.getUniqueId());
+            final PlayerData defender = this.manager.getPlayerData(hurtPlayer.getUniqueId());
+            final int attackerDamage = attacker.calculateDamage();
+            defender.applyDamage(attackerDamage);
+            e.setDamage(0D);
+            this.spawnParticle(hurtPlayer);
+            Logger.debug("Player with UUID: " + attackingPlayer.getUniqueId().toString() + " dealt " + attackerDamage + " to " + hurtPlayer.getUniqueId().toString());
+        } else if (mobHitsPlayer) {
+            final Player player = (Player) e.getEntity();
+            final PlayerData data = this.manager.getPlayerData(player.getUniqueId());
+            data.applyDamage((int)e.getDamage());
+            this.spawnParticle(player);
+            Logger.debug("Mob: " + e.getDamager().getType() + " dealt ~"+ e.getDamage()  + " to " + player.getUniqueId().toString());
+            e.setDamage(0D);
+
         }
+    }
+
+    private void spawnParticle(final Entity e) {
+        final World world = e.getWorld();
+        final Location loc = e.getLocation();
+        world.spawnParticle(Particle.CRIT_MAGIC, loc, 10);
     }
 }
