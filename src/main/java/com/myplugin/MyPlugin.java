@@ -2,6 +2,7 @@ package com.myplugin;
 
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.command.commands.RaceCommand;
+import com.myplugin.events.PlayerAttackEvent;
 import com.myplugin.events.PlayerTakesDamage;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.PlayerDataManager;
@@ -16,9 +17,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
+import java.util.Random;
 
 public final class MyPlugin extends JavaPlugin implements Listener {
 
+    private Random random;
     private PlayerDataManager dataManager;
     private BossBarManager barManager;
     public static boolean DEBUG;
@@ -26,6 +29,7 @@ public final class MyPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        this.random = new Random();
         this.saveDefaultConfig();
         this.setConfigValues();
 
@@ -37,6 +41,9 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         this.barManager = new BossBarManager(this);
         Logger.debug("Loading event PlayerDamageEvent");
         new PlayerTakesDamage(this);
+        Logger.debug("Loading event PlayerAttackEvent");
+        new PlayerAttackEvent(this);
+
 
         Logger.debug("Loading command RaceCommand");
         new RaceCommand(this);
@@ -61,12 +68,12 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
-    public static int getPercentOf(final int toGet, final int percentage) {
-        return (int)((toGet * (percentage / 100.0f)) * 100);
+    public static float getPercentOf(final int toGet, final int percentage) {
+        return (float)toGet/(float)percentage;
     }
 
-    public static double getDoublePercentOf(final int toGet, final int percentage) {
-        return ((toGet * (percentage / 100.0f)));
+    public static int getDoublePercentOf(final int toGet, final int percentage) {
+        return Math.round(((toGet * (percentage / 100.0f))));
     }
 
     /**
@@ -84,6 +91,10 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         } catch (final IllegalAccessException | NoSuchFieldException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public final Random getRandom() {
+        return this.random;
     }
 
     /**

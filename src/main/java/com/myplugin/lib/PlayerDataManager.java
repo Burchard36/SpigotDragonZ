@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
+import com.myplugin.lib.config.ConfigBaseStats;
 import com.myplugin.lib.config.ConfigPath;
+import com.myplugin.lib.dragonball.PlayerProperty;
 import com.myplugin.lib.dragonball.Race;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
@@ -24,7 +26,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
@@ -98,6 +99,8 @@ public class PlayerDataManager implements Listener {
 
     private void setConfigValues() {
         this.saveTime = this.plugin.getConfig().getInt(ConfigPath.SAVE_CACHE_INTERVAL.toString());
+
+
     }
 
     public final void savePlayerAsync(final UUID uuidOfPlayer, final PlayerData data) {
@@ -180,21 +183,21 @@ public class PlayerDataManager implements Listener {
 
     private PlayerData getDefaultData(final UUID uuid) {
         final JsonObject playerStats = new JsonObject();
-        playerStats.addProperty("race", Race.NONE.toString());
-        playerStats.addProperty("currentKi", 0);
-        playerStats.addProperty("currentHealth", 0);
-        playerStats.addProperty("currentStamina", 0);
-        playerStats.addProperty("level", 1);
-        playerStats.addProperty("currentExp", 0);
+        playerStats.addProperty(PlayerProperty.RACE.toString(), Race.NONE.toString());
+        playerStats.addProperty(PlayerProperty.CURRENT_KI.toString(), 0);
+        playerStats.addProperty(PlayerProperty.CURRENT_HEALTH.toString(), 0);
+        playerStats.addProperty(PlayerProperty.CURRENT_STAMINA.toString(), 0);
+        playerStats.addProperty(PlayerProperty.LEVEL.toString(), 1);
+        playerStats.addProperty(PlayerProperty.CURRENT_EXP.toString(), 0);
         final JsonObject talentPoints = new JsonObject();
-        talentPoints.addProperty("totalTalentPointsSpent", 0);
-        talentPoints.addProperty("talentPoints", 0);
-        talentPoints.addProperty("strength", 0);
-        talentPoints.addProperty("maxKi", 0);
-        talentPoints.addProperty("maxHealth", 0);
-        talentPoints.addProperty("defense", 0);
-        talentPoints.addProperty("kiPower", 0);
-        talentPoints.addProperty("stamina", 0);
+        talentPoints.addProperty(PlayerProperty.TALENT_POINTS_SPENT.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.TALENT_POINTS.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.STRENGTH.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.MAX_KI.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.MAX_HEALTH.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.DEFENSE.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.KI_POWER.toString(), 0);
+        talentPoints.addProperty(PlayerProperty.MAX_STAMINA.toString(), 0);
 
         return new PlayerData(playerStats, talentPoints, this.plugin, uuid);
     }

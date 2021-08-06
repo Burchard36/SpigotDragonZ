@@ -96,7 +96,8 @@ public class BossBarManager implements Listener {
         Logger.debug("BossBar maxHealth: " + maxHealth);
         Logger.debug("BossBar currentHealth" + currentHealth);
 
-        final double percentOf = MyPlugin.getDoublePercentOf(maxHealth, currentHealth);
+        final float percentOf = MyPlugin.getPercentOf(currentHealth, maxHealth);
+        Logger.debug("BossBar percent of health " + percentOf);
         bar.setProgress(percentOf);
         if (percentOf >= 0.90) {
             bar.setColor(BarColor.GREEN);

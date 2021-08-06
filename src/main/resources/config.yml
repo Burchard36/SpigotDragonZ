@@ -41,7 +41,14 @@ GameSettings:
           # Every level, this MaxHP is added to the overall stat
           MaxHpInc: 10
           # Every level, this stamina is added to the overall stat
-          StamInc: 1
+          StamInc: 2
+        Default:
+          Str: 2
+          Def: 2
+          MaxKi: 10
+          KiPow: 3
+          MaxHp: 4
+          MaxStam: 5
       HALF_SAIYAN:
         # For every 1 skill point spent on Strength, this amount is added to overall stats
         StrInc: 3
@@ -80,3 +87,24 @@ DevelopmentSettings:
   # Of almost everything that happens with the plugin (Data saving, Data Creating, certain plugin events/commands and
   # actions)
   Debug: true
+
+ExpSettings:
+
+  ZOMBIE:
+    Exp: 10
+  BABY_ZOMBIE:
+    Exp: 5
+  CREEPER:
+    Exp: 20
+  SKELETON:
+    Exp: 15
+  ENDERMAN:
+    Exp: 25
+  BLAZE:
+    Exp: 23
+
+MobSettings:
+  ZOMBIE:
+    Health: 40
+    Attack:
+

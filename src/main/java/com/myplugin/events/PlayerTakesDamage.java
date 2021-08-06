@@ -27,6 +27,7 @@ public class PlayerTakesDamage implements Listener {
             final Player player = (Player) e.getEntity();
             final PlayerData data = this.manager.getPlayerData(player.getUniqueId());
             data.applyDamage((int)e.getDamage());
+            e.setDamage(0D);
         }
     }
 }
