@@ -1,6 +1,8 @@
 # SpigotDragonZ
 Dragon Ball Z Plugin for Minecraft servers!
 
+THIS PLUGIN WILL BE ADDED TO SPIGOTMC (And a lot of other sites) FREE OF CHARGE AND WILL ALWAYS BE OPENS SOURCE. ATTEMPTS TO UPLOAD THIS PLUGIN TO THOSE SITES OR SIMILAR WILL RESULT IN YOUR ACCOUNT BE REPORTED AND LIKELY BANNED FROM THAT SERVICE, DO NOT CLAIM WORK THAT IS NOT YOUR OWN!!
+
 This plugin has many planned features:
 
   - Wide variety of Race's from the official show! (Current have Saiyan and Half-Saiyan)
