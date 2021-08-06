@@ -12,6 +12,7 @@ import com.myplugin.lib.dragonball.Race;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -20,8 +21,7 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-import static com.myplugin.MyPlugin.getDoublePercentOf;
-import static com.myplugin.MyPlugin.getPercentOf;
+import static com.myplugin.MyPlugin.*;
 
 public class PlayerData implements Listener {
 
@@ -148,6 +148,10 @@ public class PlayerData implements Listener {
      * Think of these on a as instance basis
      */
 
+    public final Player getPlayer() {
+        return Bukkit.getPlayer(this.uuid);
+    }
+
     public final int getPlayerStrength() {
         final JsonElement strPointsSpent = this.talentPoints.get(PlayerProperty.STRENGTH.toString());
         if (strPointsSpent == null) return -1;
@@ -159,15 +163,18 @@ public class PlayerData implements Listener {
         final JsonElement hpPointsSpent = this.talentPoints.get(PlayerProperty.MAX_HEALTH.toString());
         if (hpPointsSpent == null) return -1;
         final int playerLevel = this.getPlayerLevel();
-        Logger.debug("getPlayerMaxHealth #1 " + (this.perSpMaxHpInc));
-        Logger.debug("getPlayerMaxHealth #2 " + (this.perLvlMaxHpInc));
         return (hpPointsSpent.getAsInt() * this.perSpMaxHpInc) + (playerLevel * this.perLvlMaxHpInc);
     }
 
     public final int getPlayerHealth() {
         final JsonElement health = this.playerStats.get(PlayerProperty.CURRENT_HEALTH.toString());
         if (health == null) return -1;
-        return health.getAsInt();
+        int hp = health.getAsInt();
+        if (hp > this.getPlayerMaxHealth()) {
+            hp = this.getPlayerMaxHealth();
+            this.setPlayerHealth(hp);
+        }
+        return hp;
     }
 
     public final int getPlayerKi() {
@@ -253,11 +260,9 @@ public class PlayerData implements Listener {
     }
 
     public final int getMaxExperience() {
-        int maxExp = 0;
+        int maxExp = this.maxStartingExp;
         for (int x = 1; x <= this.getPlayerLevel(); x++) {
-            if (x == 1) {
-                maxExp += getPercentOf(this.maxStartingExp, this.expIncrease);
-            } else maxExp += getPercentOf(maxExp, this.expIncrease);
+             maxExp += getPercentOf(maxExp, this.expIncrease);
         }
         return maxExp;
     }
@@ -370,6 +375,34 @@ public class PlayerData implements Listener {
         this.setPlayerDefense(current);
     }
 
+    public final void addExperience(final int amt) {
+        final int max = this.getMaxExperience();
+        Logger.debug("Current max EXP: " + max);
+        final int current = this.getPlayerExp() + amt;
+        if (current >= max) {
+            this.addPlayerLevel();
+            final int leftOver = max - current;
+            if (leftOver > 0) {
+                this.addExperience(leftOver);
+            } else {
+                this.playerStats.remove(PlayerProperty.CURRENT_EXP.toString());
+                this.playerStats.addProperty(PlayerProperty.CURRENT_EXP.toString(), leftOver);
+            }
+        } else {
+            this.playerStats.remove(PlayerProperty.CURRENT_EXP.toString());
+            this.playerStats.addProperty(PlayerProperty.CURRENT_EXP.toString(), current);
+        }
+    }
+
+    public final void addPlayerLevel() {
+        final int level = this.getPlayerLevel() +1;
+        this.playerStats.remove(PlayerProperty.LEVEL.toString());
+        this.playerStats.addProperty(PlayerProperty.LEVEL.toString(), level);
+        if (this.getPlayer() != null) {
+            this.getPlayer().sendMessage(Component.text(ofString("&aSuccessfully leveled up to level: &b" + level)));
+        }
+    }
+
     public final void setPlayerRace(final Race race) {
         this.playerStats.remove(PlayerProperty.RACE.toString());
         this.playerStats.addProperty(PlayerProperty.RACE.toString(), race.toString());
@@ -392,14 +425,11 @@ public class PlayerData implements Listener {
     }
 
     public final void reset(final boolean killPlayer) {
-        if (killPlayer) {
-            final Player p = Bukkit.getPlayer(this.uuid);
-            if (p != null) {
-                p.setHealth(0D);
-                this.setPlayerHealth(this.getPlayerMaxHealth());
-                this.setPlayerKi(this.getPlayerMaxKi());
-                this.setPlayerStamina(this.getPlayerMaxStamina());
-            }
+        final Player p = Bukkit.getPlayer(this.uuid);
+        this.setPlayerHealth(this.getPlayerMaxHealth());
+        this.setPlayerKi(this.getPlayerMaxKi());
+        if (killPlayer && p != null) {
+            p.setHealth(0D);
         }
     }
 
@@ -414,5 +444,9 @@ public class PlayerData implements Listener {
 
     public final void triggerUpdate() {
         Bukkit.getPluginManager().callEvent(new TriggerDataUpdate(this.uuid, this));
+    }
+
+    public final void triggerBarUpdate() {
+        Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(this.uuid, this));
     }
 }

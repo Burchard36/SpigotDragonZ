@@ -15,8 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import static com.myplugin.MyPlugin.getPercentOf;
-
 public class PlayerAttackEvent implements Listener {
 
     private final PlayerDataManager manager;
@@ -28,7 +26,6 @@ public class PlayerAttackEvent implements Listener {
 
     @EventHandler
     public void onEntityDamage(final EntityDamageByEntityEvent e) {
-
         final boolean playerHitsMob = e.getDamager() instanceof Player && !(e.getEntity() instanceof Player);
         final boolean playerHitsPlayer = e.getEntity() instanceof Player && e.getDamager() instanceof Player;
         final boolean mobHitsPlayer = !(e.getDamager() instanceof Player) && e.getEntity() instanceof Player;
@@ -40,7 +37,6 @@ public class PlayerAttackEvent implements Listener {
             Logger.debug("Player with UUID: " + p.getUniqueId().toString() + " dealt " + damage + " to " + e.getEntity().getType().toString());
             e.setDamage(damage);
             this.spawnParticle(e.getEntity());
-
         } else if (playerHitsPlayer) {
             final Player hurtPlayer = (Player) e.getEntity();
             final Player attackingPlayer = (Player) e.getEntity();
@@ -54,11 +50,23 @@ public class PlayerAttackEvent implements Listener {
         } else if (mobHitsPlayer) {
             final Player player = (Player) e.getEntity();
             final PlayerData data = this.manager.getPlayerData(player.getUniqueId());
+            Logger.debug("Current Health before hit by mob: " + data.getPlayerHealth());
             data.applyDamage((int)e.getDamage());
             this.spawnParticle(player);
             Logger.debug("Mob: " + e.getDamager().getType() + " dealt ~"+ e.getDamage()  + " to " + player.getUniqueId().toString());
             e.setDamage(0D);
+        } else e.setDamage(0D);
+    }
 
+    @EventHandler
+    public void onPlayerHurt(final EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player) {
+            if (e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK || e.getCause() != EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+                final Player p = (Player) e.getEntity();
+                final PlayerData data = this.manager.getPlayerData(p.getUniqueId());
+                data.applyDamage((int)e.getDamage());
+                e.setDamage(0D);
+            }
         }
     }
 

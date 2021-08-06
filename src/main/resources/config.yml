@@ -89,22 +89,85 @@ DevelopmentSettings:
   Debug: true
 
 ExpSettings:
-
   ZOMBIE:
-    Exp: 10
-  BABY_ZOMBIE:
-    Exp: 5
+    ExpMin: 10
+    ExpMax: 20
   CREEPER:
-    Exp: 20
+    ExpMin: 25
+    ExpMax: 50
   SKELETON:
-    Exp: 15
+    ExpMin: 5
+    ExpMax: 15
+  SPIDER:
+    ExpMin: 10
+    ExpMax: 20
+  GHAST:
+    ExpMin: 15
+    ExpMax: 30
+  COW:
+    ExpMin: 5
+    ExpMax: 10
+  CHICKEN:
+    ExpMin: 5
+    ExpMax: 10
+  SHEEP:
+    ExpMin: 5
+    ExpMax: 10
   ENDERMAN:
-    Exp: 25
+    ExpMin: 20
+    ExpMax: 35
+  SILVERFISH:
+    ExpMin: 10
+    ExpMax: 20
+  HUSK:
+    ExpMin: 5
+    ExpMax: 15
   BLAZE:
-    Exp: 23
+    ExpMin: 10
+    ExpMax: 25
+  WITHER_SKELETON:
+    ExpMin: 30
+    ExpMax: 50
 
 MobSettings:
   ZOMBIE:
     Health: 40
-    Attack:
+    Attack: 15
+  CREEPER:
+    Health: 60
+    Attack: 60
+  SKELETON:
+    Health: 55
+    Attack: 20
+  SPIDER:
+    Health: 35
+    Attack: 30
+  GHAST:
+    Health: 70
+    Attack: 40
+  COW:
+    Health: 100
+    Attack: 10
+  CHICKEN:
+    Health: 50
+    Attack: 5
+  SHEEP:
+    Health: 75
+    Attack: 10
+  ENDERMAN:
+    Health: 125
+    Attack: 40
+  SILVERFISH:
+    Health: 40
+    Attack: 20
+  HUSK:
+    Health: 55
+    Attack: 20
+  BLAZE:
+    Health: 110
+    Attack: 35
+  WITHER_SKELETON:
+    Health: 180
+    Attack: 45
+
 

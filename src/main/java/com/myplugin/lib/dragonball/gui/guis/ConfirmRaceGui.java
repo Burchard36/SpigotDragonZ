@@ -6,6 +6,7 @@ import com.myplugin.lib.PlayerData;
 import com.myplugin.lib.PlayerDataManager;
 import com.myplugin.lib.dragonball.Race;
 import com.myplugin.lib.dragonball.gui.Gui;
+import com.myplugin.lib.events.TriggerBossBarUpdate;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -88,6 +89,7 @@ public class ConfirmRaceGui extends Gui implements Listener {
                 data.setPlayerRace(this.race);
                 data.triggerUpdate();
                 this.plugin.getBarManager().loadPlayerBar(p.getUniqueId());
+                Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(p.getUniqueId(), data));
                 p.sendMessage(Component.text(ofString("&aSuccessfully set you're race to &b" + this.race.toString().toLowerCase())));
             } else if (slot == 14) {
                 p.closeInventory();

@@ -2,6 +2,8 @@ package com.myplugin;
 
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.command.commands.RaceCommand;
+import com.myplugin.events.ExperienceHandler;
+import com.myplugin.events.MobSpawnManager;
 import com.myplugin.events.PlayerAttackEvent;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.PlayerDataManager;
@@ -31,6 +33,7 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         this.random = new Random();
         this.saveDefaultConfig();
         this.setConfigValues();
+        Bukkit.spigot().getConfig().set("settings.attribute.maxHealth", 10240);
 
         Logger.debug("Debug mode is enabled! You will receive a lot more message in your server console now, disable this if you want your outpost cleaner!");
         Logger.debug("Initializing PlayerDataManager. . .");
@@ -40,6 +43,11 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         this.barManager = new BossBarManager(this);
         Logger.debug("Loading event PlayerAttackEvent");
         new PlayerAttackEvent(this);
+        Logger.debug("Loading event MobSpawnManager");
+        new MobSpawnManager(this);
+        Logger.debug("Loading event ExperienceHandler");
+        new ExperienceHandler(this);
+
 
 
         Logger.debug("Loading command RaceCommand");
