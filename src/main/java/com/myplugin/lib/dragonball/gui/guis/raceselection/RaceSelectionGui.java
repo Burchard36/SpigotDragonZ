@@ -1,9 +1,10 @@
-package com.myplugin.lib.dragonball.gui.guis;
+package com.myplugin.lib.dragonball.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.dragonball.Race;
 import com.myplugin.lib.dragonball.gui.Gui;
+import com.myplugin.lib.dragonball.gui.guis.raceselection.ConfirmRaceGui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,15 +23,18 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static com.myplugin.MyPlugin.ofString;
 
 public class RaceSelectionGui extends Gui implements Listener {
 
     private final MyPlugin plugin;
-    public RaceSelectionGui(final MyPlugin plugin) {
+    private final UUID uuid;
+    public RaceSelectionGui(final MyPlugin plugin, final UUID uuid) {
         super(27, ofString("&b&lRace Selection GUI"), new RaceSelectionHolder());
         this.plugin = plugin;
+        this.uuid = uuid;
         final ItemStack saiyanStack = this.getSaiyanStack();
         final ItemStack halfSaiyanStack = this.getHalfSaiyanStack();
         this.inventory.setItem(11, saiyanStack);
@@ -91,9 +95,9 @@ public class RaceSelectionGui extends Gui implements Listener {
             e.setCancelled(true);
             final int clicked = e.getSlot();
             if (clicked == 11) {
-                p.openInventory(new ConfirmRaceGui(this.plugin, Race.SAIYAN).inventory);
+                p.openInventory(new ConfirmRaceGui(this.plugin, Race.SAIYAN, this.uuid).inventory);
             } else if (clicked == 13) {
-                p.openInventory(new ConfirmRaceGui(this.plugin, Race.HALF_SAIYAN).inventory);
+                p.openInventory(new ConfirmRaceGui(this.plugin, Race.HALF_SAIYAN, this.uuid).inventory);
             }
         }
     }
@@ -101,7 +105,8 @@ public class RaceSelectionGui extends Gui implements Listener {
     @Override
     @EventHandler
     public void onThisInventoryClose(final InventoryCloseEvent e) {
-        if (e.getInventory().getHolder() instanceof RaceSelectionHolder) {
+        if (e.getInventory().getHolder() instanceof RaceSelectionHolder &&
+            e.getPlayer().getUniqueId() == this.uuid) {
             Logger.debug("Unregistered RaceSelectionGui because inventory closed.");
             HandlerList.unregisterAll(this);
         }
@@ -110,8 +115,10 @@ public class RaceSelectionGui extends Gui implements Listener {
     @Override
     @EventHandler
     public void onThisInventoryOwnerLeave(final PlayerQuitEvent e) {
-        Logger.debug("Unregistered RaceSelectionGui because player left.");
-        HandlerList.unregisterAll(this);
+        if (e.getPlayer().getUniqueId() == this.uuid) {
+            Logger.debug("Unregistered RaceSelectionGui because player left.");
+            HandlerList.unregisterAll(this);
+        }
     }
 
     public static class RaceSelectionHolder implements InventoryHolder {

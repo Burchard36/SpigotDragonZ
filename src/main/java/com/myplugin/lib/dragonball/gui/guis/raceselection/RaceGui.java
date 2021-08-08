@@ -1,4 +1,4 @@
-package com.myplugin.lib.dragonball.gui.guis;
+package com.myplugin.lib.dragonball.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
@@ -30,11 +30,13 @@ public class RaceGui extends Gui implements Listener {
 
     private final Race playerRace;
     private final MyPlugin plugin;
+    private final PlayerData data;
 
     public RaceGui(final PlayerData data, final MyPlugin plugin) {
         super(27, ofString("&b&lRace Gui Menu"), new RaceGuiHolder());
         this.plugin = plugin;
-        this.playerRace = data.getPlayerRace();
+        this.data = data;
+        this.playerRace = this.data.getPlayerRace();
         final ItemStack currentRaceItem = this.getCurrentRaceStack();
         this.inventory.setItem(13, currentRaceItem);
         this.fillEmptyWith(this.getBackgroundItem());
@@ -93,7 +95,7 @@ public class RaceGui extends Gui implements Listener {
             final int clickedSlot = e.getSlot();
             if (clickedSlot == 13 && this.playerRace == Race.NONE) {
                 p.closeInventory();
-                p.openInventory(new RaceSelectionGui(this.plugin).inventory);
+                p.openInventory(new RaceSelectionGui(this.plugin, this.data.getPlayer().getUniqueId()).inventory);
             }
         }
     }
@@ -101,7 +103,8 @@ public class RaceGui extends Gui implements Listener {
     @Override
     @EventHandler
     public void onThisInventoryClose(final InventoryCloseEvent e) {
-        if (e.getInventory().getHolder() instanceof RaceGuiHolder) {
+        if (e.getInventory().getHolder() instanceof RaceGuiHolder &&
+            e.getPlayer().getUniqueId() == this.data.getPlayer().getUniqueId()) {
             Logger.debug("Unregistered RaceGui because inventory closed.");
             HandlerList.unregisterAll(this);
         }
@@ -110,8 +113,10 @@ public class RaceGui extends Gui implements Listener {
     @Override
     @EventHandler
     public void onThisInventoryOwnerLeave(final PlayerQuitEvent e) {
-        Logger.debug("Unregistered RaceGui because player left.");
-        HandlerList.unregisterAll(this);
+        if (e.getPlayer().getUniqueId() == this.data.getPlayer().getUniqueId()) {
+            Logger.debug("Unregistered RaceGui because player left.");
+            HandlerList.unregisterAll(this);
+        }
     }
 
     public static final class RaceGuiHolder implements InventoryHolder {

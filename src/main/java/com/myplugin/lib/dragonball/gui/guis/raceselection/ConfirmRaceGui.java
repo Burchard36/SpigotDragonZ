@@ -1,4 +1,4 @@
-package com.myplugin.lib.dragonball.gui.guis;
+package com.myplugin.lib.dragonball.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
@@ -26,18 +26,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 import static com.myplugin.MyPlugin.ofString;
 
 public class ConfirmRaceGui extends Gui implements Listener {
 
     private final Race race;
     private final MyPlugin plugin;
+    private final UUID uuid;
 
     public ConfirmRaceGui(final MyPlugin plugin,
-                          final Race selectedRace) {
+                          final Race selectedRace,
+                          final UUID uuid) {
         super(27, ofString("&b&lConfirm race selection?"), new ConfirmRaceHolder());
         this.race = selectedRace;
         this.plugin = plugin;
+        this.uuid = uuid;
         final ItemStack confirmStack = this.getConfirmStack();
         final ItemStack cancelStack =  this.getCancelStack();
         this.inventory.setItem(12, confirmStack);
@@ -80,6 +85,7 @@ public class ConfirmRaceGui extends Gui implements Listener {
     public void onThisInventoryClick(final InventoryClickEvent e) {
         final Inventory inv = e.getInventory();
         if (inv.getHolder() instanceof ConfirmRaceHolder) {
+            e.setCancelled(true);
             final Player p = (Player) e.getWhoClicked();
             final int slot = e.getSlot();
             if (slot == 12) {
@@ -93,7 +99,7 @@ public class ConfirmRaceGui extends Gui implements Listener {
                 p.sendMessage(Component.text(ofString("&aSuccessfully set you're race to &b" + this.race.toString().toLowerCase())));
             } else if (slot == 14) {
                 p.closeInventory();
-                p.openInventory(new RaceSelectionGui(this.plugin).inventory);
+                p.openInventory(new RaceSelectionGui(this.plugin, this.uuid).inventory);
             }
         }
     }
@@ -101,7 +107,8 @@ public class ConfirmRaceGui extends Gui implements Listener {
     @Override
     @EventHandler
     public void onThisInventoryClose(final InventoryCloseEvent e) {
-        if (e.getInventory().getHolder() instanceof ConfirmRaceHolder) {
+        if (e.getInventory().getHolder() instanceof ConfirmRaceHolder &&
+            e.getPlayer().getUniqueId() == this.uuid) {
             Logger.debug("Unregistered ConfirmRaceGui because inventory closed.");
             HandlerList.unregisterAll(this);
         }
@@ -110,8 +117,10 @@ public class ConfirmRaceGui extends Gui implements Listener {
     @Override
     @EventHandler
     public void onThisInventoryOwnerLeave(final PlayerQuitEvent e) {
-        Logger.debug("Unregistered ConfirmRaceGui because player left.");
-        HandlerList.unregisterAll(this);
+        if (e.getPlayer().getUniqueId() == this.uuid) {
+            Logger.debug("Unregistered ConfirmRaceGui because player left.");
+            HandlerList.unregisterAll(this);
+        }
     }
 
     public static class ConfirmRaceHolder implements InventoryHolder {
