@@ -8,6 +8,7 @@ public class DefaultTalentPoints {
     public int defaultKiPower;
     public int defaultDefense;
     public int defaultTalentPoints;
+    public int maxExp;
 
     public final int getDefaultDefense() {
         return this.defaultDefense;
@@ -35,5 +36,9 @@ public class DefaultTalentPoints {
 
     public final int getDefaultStrength() {
         return this.defaultStrength;
+    }
+
+    public final int getMaxExp() {
+        return this.maxExp;
     }
 }

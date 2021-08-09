@@ -43,7 +43,6 @@ public class MobSpawnManager implements Listener {
     public void onMobSpawn(final CreatureSpawnEvent e) {
         final EntityType type = e.getEntityType();
         if (this.entitySet.contains(type)) {
-            Logger.debug("Loading MobSpawn data for: " + type);
             final MobStat stat = this.mobStats.get(type);
             final AttributeInstance attackInstance =  e.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
             final AttributeInstance healthInstance =  e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH);

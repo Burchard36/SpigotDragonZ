@@ -4,16 +4,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.config.enums.ConfigBaseStats;
-import com.myplugin.lib.data.json.config.enums.ConfigPath;
-import com.myplugin.lib.data.json.config.enums.ConfigPerLevelPath;
-import com.myplugin.lib.data.json.config.enums.ConfigSkillPath;
+import com.myplugin.lib.data.json.config.JsonConfigManager;
+import com.myplugin.lib.data.json.config.configs.HalfSaiyanConfig;
+import com.myplugin.lib.data.json.config.configs.SaiyanConfig;
+import com.myplugin.lib.data.json.config.configs.defaults.DefaultTalentPoints;
+import com.myplugin.lib.data.json.config.configs.defaults.PerLevelIncrements;
+import com.myplugin.lib.data.json.config.configs.defaults.PerTalentPoint;
+import com.myplugin.lib.data.json.config.enums.*;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,7 +32,6 @@ public class PlayerData implements Listener {
 
     private transient MyPlugin plugin;
     private transient UUID uuid;
-    private transient FileConfiguration config;
 
     private transient int tpPerLevel;
     private transient int maxStartingExp;
@@ -64,7 +65,6 @@ public class PlayerData implements Listener {
         this.playerStats = playerStats;
         this.talentPoints = talentPoints;
         this.plugin = plugin;
-        this.config = plugin.getConfig();
         this.uuid = uuid;
         this.setConfigValues();
     }
@@ -82,64 +82,62 @@ public class PlayerData implements Listener {
     }
 
     public void setConfigValues() {
-        this.config = plugin.getConfig();
-        this.tpPerLevel = this.config.getInt(ConfigPath.TALENT_POINTS_PER_LEVEL.toString());
-        this.maxStartingExp = this.config.getInt(ConfigPath.MAX_BASE_EXP.toString());
-        this.expIncrease = this.config.getInt(ConfigPath.EXP_INCREASE_PER_LEVEL.toString());
+        final JsonConfigManager manager = this.plugin.getConfigManager();
 
         final Race playerRace = this.getPlayerRace();
+        PerTalentPoint perTalentPoint = null;
+        PerLevelIncrements perLvl = null;
+        DefaultTalentPoints defaults = null;
         switch(playerRace) {
             case SAIYAN: {
-                this.perSpStrInc = this.config.getInt(ConfigSkillPath.SAIYAN_STR_INCREASE.toString());
-                this.perSpMaxHpInc = this.config.getInt(ConfigSkillPath.SAIYAN_HP_INCREASE.toString());
-                this.perSpMaxKiInc = this.config.getInt(ConfigSkillPath.SAIYAN_MAX_KI_INCREASE.toString());
-                this.perSpKiPowInc = this.config.getInt(ConfigSkillPath.SAIYAN_KI_POW_INCREASE.toString());
-                this.perSpDefInc = this.config.getInt(ConfigSkillPath.SAIYAN_DEFENSE_INCREASE.toString());
-                this.perSpStamInc = this.config.getInt(ConfigSkillPath.SAIYAN_STAM_INCREASE.toString());
-
-                this.perLvlStrInc = this.config.getInt(ConfigPerLevelPath.SAIYAN_STR_INCREASE.toString());
-                this.perLvlMaxHpInc = this.config.getInt(ConfigPerLevelPath.SAIYAN_HP_INCREASE.toString());
-                this.perLvlMaxKiInc = this.config.getInt(ConfigPerLevelPath.SAIYAN_MAX_KI_INCREASE.toString());
-                this.perLvlKiPowInc = this.config.getInt(ConfigPerLevelPath.SAIYAN_KI_POW_INCREASE.toString());
-                this.perLvlDefInc = this.config.getInt(ConfigPerLevelPath.SAIYAN_DEFENSE_INCREASE.toString());
-                this.perLvlStamInc = this.config.getInt(ConfigPerLevelPath.SAIYAN_STAM_INCREASE.toString());
-
-                this.defaultStrength = this.config.getInt(ConfigBaseStats.SAIYAN_DEFAULT_DEFENSE.toString());
-                this.defaultDefense = this.config.getInt(ConfigBaseStats.SAIYAN_DEFAULT_DEFENSE.toString());
-                this.defaultKiPow = this.config.getInt(ConfigBaseStats.SAIYAN_DEFAULT_KI_POWER.toString());
-                this.defaultMaxHp = this.config.getInt(ConfigBaseStats.SAIYAN_DEFAULT_MAX_HP.toString());
-                this.defaultMaxKi = this.config.getInt(ConfigBaseStats.SAIYAN_DEFAULT_MAX_KI.toString());
-                this.defaultMaxStam = this.config.getInt(ConfigBaseStats.SAIYAN_DEFAULT_MAX_STAM.toString());
-
-                Logger.debug("Loaded SAIYAN level and talent point increments");
+                final SaiyanConfig saiyanConfig = manager.getSaiyanConfig();
+                perTalentPoint = saiyanConfig.getPerTalentPoint();
+                perLvl = saiyanConfig.getPerLevelIncrements();
+                defaults = saiyanConfig.getDefaultTalentPoint();
                 break;
             }
 
             case HALF_SAIYAN: {
-                this.perSpStrInc = this.config.getInt(ConfigSkillPath.HALF_SAIYAN_STR_INCREASE.toString());
-                this.perSpMaxHpInc = this.config.getInt(ConfigSkillPath.HALF_SAIYAN_HP_INCREASE.toString());
-                this.perSpMaxKiInc = this.config.getInt(ConfigSkillPath.HALF_SAIYAN_MAX_KI_INCREASE.toString());
-                this.perSpKiPowInc = this.config.getInt(ConfigSkillPath.HALF_SAIYAN_KI_POW_INCREASE.toString());
-                this.perSpDefInc = this.config.getInt(ConfigSkillPath.HALF_SAIYAN_DEFENSE_INCREASE.toString());
-                this.perSpStamInc = this.config.getInt(ConfigSkillPath.HALF_SAIYAN_STAM_INCREASE.toString());
-
-                this.perLvlStrInc = this.config.getInt(ConfigPerLevelPath.HALF_SAIYAN_STR_INCREASE.toString());
-                this.perLvlMaxHpInc = this.config.getInt(ConfigPerLevelPath.HALF_SAIYAN_HP_INCREASE.toString());
-                this.perLvlMaxKiInc = this.config.getInt(ConfigPerLevelPath.HALF_SAIYAN_MAX_KI_INCREASE.toString());
-                this.perLvlKiPowInc = this.config.getInt(ConfigPerLevelPath.HALF_SAIYAN_KI_POW_INCREASE.toString());
-                this.perLvlDefInc = this.config.getInt(ConfigPerLevelPath.HALF_SAIYAN_DEFENSE_INCREASE.toString());
-                this.perLvlStamInc = this.config.getInt(ConfigPerLevelPath.HALF_SAIYAN_STAM_INCREASE.toString());
-                Logger.debug("Loaded HALF_SAIYAN level and talent point increments");
+                final HalfSaiyanConfig halfSaiyanConfig = manager.getHalfSaiyanConfig();
+                perTalentPoint = halfSaiyanConfig.getPerTalentPoint();
+                perLvl = halfSaiyanConfig.getPerLevelIncrements();
+                defaults = halfSaiyanConfig.getDefaultTalentPoint();
                 break;
             }
 
             case NONE: {
-                Logger.debug("Did not load variables because players race is NONE");
                 break;
             }
-
-
         }
+
+        if (perLvl == null || perTalentPoint == null || defaults == null) {
+            Logger.debug("Did not load config data for player with UUID: " + this.uuid + " because configs were null (Likely has Race.NONE");
+            return;
+        }
+
+        this.perSpStrInc = perTalentPoint.getStrength();
+        this.perSpMaxHpInc = perTalentPoint.getMaxHealth();
+        this.perSpMaxKiInc = perTalentPoint.getMaxKi();
+        this.perSpKiPowInc = perTalentPoint.getKiPower();
+        this.perSpDefInc = perTalentPoint.getDefense();
+        this.perSpStamInc = perTalentPoint.getMaxStamina();
+
+        this.perLvlStrInc = perLvl.getStrength();
+        this.perLvlMaxHpInc = perLvl.getMaxHealth();
+        this.perLvlMaxKiInc = perLvl.getMaxKi();
+        this.perLvlKiPowInc = perLvl.getKiPower();
+        this.perLvlDefInc = perLvl.getDefense();
+        this.perLvlStamInc = perLvl.getMaxStamina();
+        this.tpPerLevel = perLvl.getTalentPoints();
+        this.expIncrease = perLvl.getPercentExpIncrease();
+
+        this.defaultStrength = defaults.getDefaultStrength();
+        this.defaultDefense = defaults.getDefaultDefense();
+        this.defaultKiPow = defaults.getDefaultKiPower();
+        this.defaultMaxHp = defaults.getDefaultMaxHealth();
+        this.defaultMaxKi = defaults.getDefaultMaxKi();
+        this.defaultMaxStam = defaults.getDefaultMaxStamina();
+        this.maxStartingExp = defaults.getMaxExp();
     }
 
     /*

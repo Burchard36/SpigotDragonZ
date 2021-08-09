@@ -5,6 +5,8 @@ import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.data.json.config.enums.ConfigPath;
+import com.myplugin.lib.data.json.config.enums.PlayerProperty;
+import com.myplugin.lib.data.json.config.enums.Race;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
 import net.kyori.adventure.text.Component;

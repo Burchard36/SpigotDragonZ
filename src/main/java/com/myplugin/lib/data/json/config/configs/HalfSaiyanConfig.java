@@ -1,4 +1,4 @@
-package com.myplugin.lib.data.json.config.configs.saiyan;
+package com.myplugin.lib.data.json.config.configs;
 
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
@@ -7,7 +7,7 @@ import com.myplugin.lib.data.json.config.configs.defaults.PerLevelIncrements;
 import com.myplugin.lib.data.json.config.configs.defaults.PerTalentPoint;
 import com.myplugin.lib.data.json.config.enums.ConfigType;
 
-public class SaiyanConfig {
+public class HalfSaiyanConfig {
 
     public String key;
     public JsonObject defaultTalentPoints;
@@ -29,4 +29,5 @@ public class SaiyanConfig {
     public final PerTalentPoint getPerTalentPoint() {
         return MyPlugin.INSTANCE.getGson().fromJson(this.perTalentPoint, PerTalentPoint.class);
     }
+
 }

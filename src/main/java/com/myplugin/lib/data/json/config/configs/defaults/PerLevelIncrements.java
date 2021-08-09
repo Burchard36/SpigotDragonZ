@@ -9,6 +9,7 @@ public class PerLevelIncrements {
     public int maxStamina;
     public int maxHealth;
     public int talentPoints;
+    public int percentExpIncrease;
 
     public final int getDefense() {
         return this.defense;
@@ -36,5 +37,9 @@ public class PerLevelIncrements {
 
     public final int getTalentPoints() {
         return this.talentPoints;
+    }
+
+    public final int getPercentExpIncrease() {
+        return this.percentExpIncrease;
     }
 }

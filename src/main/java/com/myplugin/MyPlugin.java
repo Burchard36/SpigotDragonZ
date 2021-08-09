@@ -115,6 +115,10 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         return this.random;
     }
 
+    public final JsonConfigManager getConfigManager() {
+        return this.configManager;
+    }
+
     /**
      * Gets the PlayerDataManager instance of this plugin
      * @return PlayerDataManager

@@ -4,7 +4,7 @@ import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.data.json.PlayerDataManager;
 import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.Race;
+import com.myplugin.lib.data.json.config.enums.Race;
 import com.myplugin.lib.gui.Gui;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import net.kyori.adventure.text.Component;
