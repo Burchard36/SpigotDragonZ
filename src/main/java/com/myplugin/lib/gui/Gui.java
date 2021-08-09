@@ -1,4 +1,4 @@
-package com.myplugin.lib.dragonball.gui;
+package com.myplugin.lib.gui;
 
 
 import net.kyori.adventure.text.Component;

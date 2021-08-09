@@ -1,11 +1,11 @@
-package com.myplugin.lib.dragonball.gui.guis.raceselection;
+package com.myplugin.lib.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.PlayerData;
-import com.myplugin.lib.PlayerDataManager;
-import com.myplugin.lib.dragonball.Race;
-import com.myplugin.lib.dragonball.gui.Gui;
+import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.data.json.PlayerData;
+import com.myplugin.lib.data.json.Race;
+import com.myplugin.lib.gui.Gui;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

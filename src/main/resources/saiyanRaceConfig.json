@@ -1,0 +1,31 @@
+{
+  "key": "SAIYAN_RACE",
+  "defaultTalentPoints": {
+    "defaultStrength": 10,
+    "defaultMaxHealth": 10,
+    "defaultMaxStamina": 5,
+    "defaultMaxKi": 5,
+    "defaultKiPower": 10,
+    "defaultDefense": 3,
+    "defaultTalentPoints": 0
+  },
+
+  "perLevelPointIncrements": {
+    "strength": 2,
+    "kiPower": 2,
+    "defense": 1,
+    "maxKi": 1,
+    "maxStamina": 1,
+    "maxHealth": 2,
+    "talentPoints": 3
+  },
+
+  "perTalentPoint": {
+    "strength": 4,
+    "maxHealth": 8,
+    "maxKi": 8,
+    "defense": 3,
+    "kiPower": 4,
+    "maxStamina": 2
+  }
+}

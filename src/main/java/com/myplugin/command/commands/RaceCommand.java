@@ -2,9 +2,9 @@ package com.myplugin.command.commands;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.command.DragonBallCommand;
-import com.myplugin.lib.PlayerData;
-import com.myplugin.lib.PlayerDataManager;
-import com.myplugin.lib.dragonball.gui.guis.raceselection.RaceGui;
+import com.myplugin.lib.data.json.PlayerData;
+import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.gui.guis.raceselection.RaceGui;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

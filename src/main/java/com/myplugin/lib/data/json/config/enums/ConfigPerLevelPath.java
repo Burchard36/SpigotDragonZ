@@ -1,4 +1,4 @@
-package com.myplugin.lib.config;
+package com.myplugin.lib.data.json.config.enums;
 
 public enum ConfigPerLevelPath {
     SAIYAN_STR_INCREASE("GameSettings.TalentPointSettings.Race.SAIYAN.PerLevel.StrInc"),

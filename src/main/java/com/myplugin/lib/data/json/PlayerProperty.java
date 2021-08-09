@@ -1,4 +1,4 @@
-package com.myplugin.lib.dragonball;
+package com.myplugin.lib.data.json;
 
 public enum PlayerProperty {
 

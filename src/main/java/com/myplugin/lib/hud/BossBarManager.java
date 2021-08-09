@@ -2,9 +2,9 @@ package com.myplugin.lib.hud;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.PlayerData;
-import com.myplugin.lib.PlayerDataManager;
-import com.myplugin.lib.dragonball.Race;
+import com.myplugin.lib.data.json.PlayerData;
+import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.data.json.Race;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;

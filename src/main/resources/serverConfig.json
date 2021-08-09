@@ -1,0 +1,6 @@
+{
+  "key": "SERVER_SETTINGS",
+  "cache": {
+    "saveIntervalInMinutes": 5
+  }
+}

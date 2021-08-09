@@ -1,14 +1,13 @@
-package com.myplugin.lib;
+package com.myplugin.lib.data.json;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
-import com.myplugin.lib.config.ConfigBaseStats;
-import com.myplugin.lib.config.ConfigPath;
-import com.myplugin.lib.config.ConfigPerLevelPath;
-import com.myplugin.lib.config.ConfigSkillPath;
-import com.myplugin.lib.dragonball.PlayerProperty;
-import com.myplugin.lib.dragonball.Race;
+import com.myplugin.lib.Logger;
+import com.myplugin.lib.data.json.config.enums.ConfigBaseStats;
+import com.myplugin.lib.data.json.config.enums.ConfigPath;
+import com.myplugin.lib.data.json.config.enums.ConfigPerLevelPath;
+import com.myplugin.lib.data.json.config.enums.ConfigSkillPath;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;

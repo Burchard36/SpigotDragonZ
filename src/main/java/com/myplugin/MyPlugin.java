@@ -1,13 +1,16 @@
 package com.myplugin;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.command.commands.RaceCommand;
 import com.myplugin.events.ExperienceHandler;
 import com.myplugin.events.MobSpawnManager;
 import com.myplugin.events.PlayerAttackEvent;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.PlayerDataManager;
-import com.myplugin.lib.config.ConfigPath;
+import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.data.json.config.JsonConfigManager;
+import com.myplugin.lib.data.json.config.enums.ConfigPath;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.hud.BossBarManager;
 import org.bukkit.Bukkit;
@@ -23,14 +26,18 @@ import java.util.Random;
 public final class MyPlugin extends JavaPlugin implements Listener {
 
     private Random random;
+    private JsonConfigManager configManager;
     private PlayerDataManager dataManager;
     private BossBarManager barManager;
     public static boolean DEBUG;
-
+    private Gson gson;
+    public static MyPlugin INSTANCE;
 
     @Override
     public void onEnable() {
         this.random = new Random();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.configManager = new JsonConfigManager(this);
         this.saveDefaultConfig();
         this.setConfigValues();
         Bukkit.spigot().getConfig().set("settings.attribute.maxHealth", 10240);
@@ -52,6 +59,8 @@ public final class MyPlugin extends JavaPlugin implements Listener {
 
         Logger.debug("Loading command RaceCommand");
         new RaceCommand(this);
+
+        INSTANCE = this;
     }
 
     @Override
@@ -96,6 +105,10 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         } catch (final IllegalAccessException | NoSuchFieldException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public final Gson getGson() {
+        return this.gson;
     }
 
     public final Random getRandom() {

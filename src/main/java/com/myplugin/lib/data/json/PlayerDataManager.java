@@ -1,13 +1,10 @@
-package com.myplugin.lib;
+package com.myplugin.lib.data.json;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
-import com.myplugin.lib.config.ConfigBaseStats;
-import com.myplugin.lib.config.ConfigPath;
-import com.myplugin.lib.dragonball.PlayerProperty;
-import com.myplugin.lib.dragonball.Race;
+import com.myplugin.lib.Logger;
+import com.myplugin.lib.data.json.config.enums.ConfigPath;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
 import net.kyori.adventure.text.Component;
@@ -46,7 +43,7 @@ public class PlayerDataManager implements Listener {
         this.plugin = plugin;
         this.setConfigValues();
         Bukkit.getPluginManager().registerEvents(this, this.plugin);
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.gson = this.plugin.getGson();
         this.playerCache = new HashMap<>();
         this.autoSaveTask = new BukkitRunnable() {
             @Override
