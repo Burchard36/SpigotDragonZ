@@ -6,7 +6,6 @@ import com.myplugin.lib.json.data.PlayerDataManager;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.gui.Gui;
-import com.myplugin.lib.events.TriggerBossBarUpdate;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

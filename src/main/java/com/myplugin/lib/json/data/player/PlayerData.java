@@ -1,6 +1,5 @@
 package com.myplugin.lib.json.data.player;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
@@ -11,7 +10,6 @@ import com.myplugin.lib.json.config.configs.SaiyanConfig;
 import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
 import com.myplugin.lib.json.config.configs.defaults.PerLevelIncrements;
 import com.myplugin.lib.json.config.configs.defaults.PerTalentPoint;
-import com.myplugin.lib.json.config.enums.PlayerProperty;
 import com.myplugin.lib.json.config.enums.Race;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

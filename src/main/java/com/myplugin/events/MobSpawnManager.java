@@ -7,21 +7,14 @@ import com.myplugin.lib.json.config.configs.MobsConfig;
 import com.myplugin.lib.json.config.configs.mobs.CustomMob;
 import com.myplugin.lib.json.config.configs.mobs.MobRadius;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 

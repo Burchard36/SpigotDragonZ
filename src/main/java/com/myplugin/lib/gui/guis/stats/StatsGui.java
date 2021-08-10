@@ -3,7 +3,6 @@ package com.myplugin.lib.gui.guis.stats;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.gui.Gui;
-import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

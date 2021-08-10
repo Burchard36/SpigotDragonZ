@@ -1,7 +1,6 @@
 package com.myplugin.lib;
 
 import com.myplugin.MyPlugin;
-import org.bukkit.Bukkit;
 
 import static com.myplugin.MyPlugin.ofString;
 

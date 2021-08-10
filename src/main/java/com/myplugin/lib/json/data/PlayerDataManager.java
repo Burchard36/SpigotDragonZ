@@ -2,13 +2,10 @@ package com.myplugin.lib.json.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.events.TriggerCacheUpdate;
-import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
 import com.myplugin.lib.json.config.enums.ConfigPath;
-import com.myplugin.lib.json.config.enums.PlayerProperty;
 import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
