@@ -1,10 +1,15 @@
 package com.myplugin.lib.gui.guis.stats;
 
+import com.myplugin.MyPlugin;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.gui.Gui;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -33,9 +38,36 @@ public class StatsGui extends Gui implements Listener {
 
         this.data = data;
         this.uuid = this.data.getPlayer().getUniqueId();
-        final ItemStack strengthStack = this.getStrengthDisplayItem(this.data.getStrength());
-        final ItemStack healthStack = this.getHealthDisplayItem(this.data.getCurrentHealth());
-        final ItemStack defenseStack = this.getDefenseDisplayItem(this.data.getDefense());
+        this.rebuildInventory();
+        this.fillEmptyWith(this.getBackgroundItem());
+
+        Bukkit.getPluginManager().registerEvents(this, MyPlugin.INSTANCE);
+    }
+
+    private void rebuildInventory() {
+        final ItemStack talentPointsStack = this.getCurrentTalentPointsDisplayItem(this.data.playerTalentPoints.currentTalentPoints);
+        final ItemStack strengthStack = this.getStrengthDisplayItem(this.data.playerTalentPoints.strengthTalentPoints);
+        final ItemStack healthStack = this.getHealthDisplayItem(this.data.playerTalentPoints.healthPoints);
+        final ItemStack defenseStack = this.getDefenseDisplayItem(this.data.playerTalentPoints.defensePoints);
+        final ItemStack maxKiStack = this.getMaxKiDisplayItem(this.data.playerTalentPoints.maxKiPoints);
+        final ItemStack kiPowerStack = this.getKiPowerDisplayItem(this.data.playerTalentPoints.kiPowerPoints);
+        final ItemStack maxStaminaStack = this.getStaminaDisplayItem(this.data.playerTalentPoints.maxStaminaPoints);
+
+        this.inventory.setItem(11, strengthStack);
+        this.inventory.setItem(12, healthStack);
+        this.inventory.setItem(13, talentPointsStack);
+        this.inventory.setItem(4, defenseStack);
+        this.inventory.setItem(22, maxStaminaStack);
+        this.inventory.setItem(14, maxKiStack);
+        this.inventory.setItem(15, kiPowerStack);
+    }
+
+    private ItemStack getCurrentTalentPointsDisplayItem(final int points) {
+        final ItemStack stack = new ItemStack(Material.SUNFLOWER, 1);
+        final ItemMeta meta = stack.getItemMeta();
+        meta.displayName(Component.text(ofString("&e&l&oCurrent Talent Points&6&l&o " + points)));
+        stack.setItemMeta(meta);
+        return stack;
     }
 
     private ItemStack getStrengthDisplayItem(final int strength) {
@@ -47,6 +79,8 @@ public class StatsGui extends Gui implements Listener {
         comp.add(Component.text(ofString("&e&l&oCurrent strength points &6&l" + strength)));
         comp.add(Component.text(ofString("&f ")));
         comp.add(Component.text(ofString("&7&oStrength increases the damage power of your punches.")));
+        comp.add(Component.text(ofString("&f ")));
+        comp.add(Component.text(ofString("&e&oLeft-Click&7&o To spend a Talent Points on this skill.")));
         meta.lore(comp);
         stack.setItemMeta(meta);
         return stack;
@@ -60,7 +94,10 @@ public class StatsGui extends Gui implements Listener {
         comp.add(Component.text(ofString("&f ")));
         comp.add(Component.text(ofString("&e&l&oCurrent defense points &6&l" + defense)));
         comp.add(Component.text(ofString("&f ")));
-        comp.add(Component.text(ofString("&7&oDefense reduces incoming damage you take from\nPhysical and Ki attacks.")));
+        comp.add(Component.text(ofString("&7&oDefense reduces incoming damage you take from")));
+        comp.add(Component.text(ofString("&7&oPhysical and Ki attacks.")));
+        comp.add(Component.text(ofString("&f ")));
+        comp.add(Component.text(ofString("&e&oLeft-Click&7&o To spend a Talent Points on this skill.")));
         meta.lore(comp);
         stack.setItemMeta(meta);
         return stack;
@@ -74,7 +111,10 @@ public class StatsGui extends Gui implements Listener {
         comp.add(Component.text(ofString("&f ")));
         comp.add(Component.text(ofString("&e&l&oCurrent health points &6&l" + health)));
         comp.add(Component.text(ofString("&f ")));
-        comp.add(Component.text(ofString("&7&oYour health will decide how much total damage you take\nbefore you die,")));
+        comp.add(Component.text(ofString("&7&oYour health will decide how much total damage you ")));
+        comp.add(Component.text(ofString("&7&otakebefore you die,")));
+        comp.add(Component.text(ofString("&f ")));
+        comp.add(Component.text(ofString("&e&oLeft-Click&7&o To spend a Talent Points on this skill.")));
         meta.lore(comp);
         stack.setItemMeta(meta);
         return stack;
@@ -88,7 +128,11 @@ public class StatsGui extends Gui implements Listener {
         comp.add(Component.text(ofString("&f ")));
         comp.add(Component.text(ofString("&e&l&oCurrent stamina points &6&l" + stamina)));
         comp.add(Component.text(ofString("&f ")));
-        comp.add(Component.text(ofString("&7&o Your stamina will decide how much longer you can hold certain forms,\ndistance for running/flying and if it runs out your physical attacks\ndeal no damage.")));
+        comp.add(Component.text(ofString("&7&oYour stamina will decide how much longer you can hold")));
+        comp.add(Component.text(ofString("&7&ocertain forms, distance for running/flying and if it runs out")));
+        comp.add(Component.text(ofString("&7&oyour physical attacks will no longer deal no damage.")));
+        comp.add(Component.text(ofString("&f ")));
+        comp.add(Component.text(ofString("&e&oLeft-Click&7&o To spend a Talent Points on this skill.")));
         meta.lore(comp);
         stack.setItemMeta(meta);
         return stack;
@@ -102,7 +146,10 @@ public class StatsGui extends Gui implements Listener {
         comp.add(Component.text(ofString("&f ")));
         comp.add(Component.text(ofString("&e&l&oCurrent max ki points &6&l" + maxKi)));
         comp.add(Component.text(ofString("&f ")));
-        comp.add(Component.text(ofString("&7&oMax Ki ultimately decides how long you hold a form for and\nhow many Ki attacks you can do.")));
+        comp.add(Component.text(ofString("&7&oMax Ki ultimately decides how long you hold a form for and")));
+        comp.add(Component.text(ofString("&7&ohow many Ki attacks you can do.")));
+        comp.add(Component.text(ofString("&f ")));
+        comp.add(Component.text(ofString("&e&oLeft-Click&7&o To spend a Talent Points on this skill.")));
         meta.lore(comp);
         stack.setItemMeta(meta);
         return stack;
@@ -116,7 +163,10 @@ public class StatsGui extends Gui implements Listener {
         comp.add(Component.text(ofString("&f ")));
         comp.add(Component.text(ofString("&e&l&oCurrent ki power points &6&l" + kiPower)));
         comp.add(Component.text(ofString("&f ")));
-        comp.add(Component.text(ofString("&7&oKi Power ultimately decides how much damage your Ki\nattacks will inflict.")));
+        comp.add(Component.text(ofString("&7&oKi Power ultimately decides how much damage your Ki")));
+        comp.add(Component.text(ofString("&7&oattacks will inflict.")));
+        comp.add(Component.text(ofString("&f ")));
+        comp.add(Component.text(ofString("&e&oLeft-Click&7&o To spend a Talent Points on this skill.")));
         meta.lore(comp);
         stack.setItemMeta(meta);
         return stack;
@@ -131,14 +181,85 @@ public class StatsGui extends Gui implements Listener {
     }
 
     @Override
+    @EventHandler
     public void onThisInventoryClick(final InventoryClickEvent e) {
         final Inventory inv = e.getInventory();
+        final Player p = (Player) e.getWhoClicked();
         if (inv.getHolder() instanceof StatGuiHolder) {
+            e.setCancelled(true);
 
+            if (e.getRawSlot() == 13) return;
+            if (e.getCurrentItem() == this.getBackgroundItem()) return;
+
+            if (data.playerTalentPoints.currentTalentPoints <= 0) {
+                p.playSound(p.getLocation(), Sound.ENTITY_VILLAGER_NO, 1f, 1f);
+                p.sendMessage(Component.text(ofString("&c&oYou do not have enough Talent Points for this!")));
+                return;
+            }
+
+            switch (e.getRawSlot()) {
+                case 11: { // Strength
+                    this.data.addStrength(1);
+                    this.data.spendTalentPoint();
+                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                    p.sendMessage(Component
+                            .text(ofString("&e&oSuccessfully added &6&o1&e&o point into strength")));
+                    break;
+                }
+
+                case 12: { // Max Health
+                    this.data.addMaxHealth(1);
+                    this.data.spendTalentPoint();
+                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                    p.sendMessage(Component
+                            .text(ofString("&e&oSuccessfully added &6&o1&e&o point into max health")));
+                    break;
+                }
+
+                case 4: { // Defense
+                    this.data.addDefense(1);
+                    this.data.spendTalentPoint();
+                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                    p.sendMessage(Component
+                            .text(ofString("&e&oSuccessfully added &6&o1&e&o point into defence")));
+                    break;
+                }
+
+                case 22: { // Max Stamina
+                    this.data.addMaxStamina(1);
+                    this.data.spendTalentPoint();
+                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                    p.sendMessage(Component
+                            .text(ofString("&e&oSuccessfully added &6&o1&e&o point into max stamina")));
+                    break;
+                }
+
+                case 14: { // Max Ki
+                    this.data.addMaxKi(1);
+                    this.data.spendTalentPoint();
+                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                    p.sendMessage(Component
+                            .text(ofString("&e&oSuccessfully added &6&o1&e&o point into max ki")));
+                    break;
+                }
+
+                case 15: {
+                    this.data.addKiPower(1);
+                    this.data.spendTalentPoint();
+                    p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                    p.sendMessage(Component
+                            .text(ofString("&e&oSuccessfully added &6&o1&e&o point into ki power")));
+                    break;
+                }
+            }
+
+            this.rebuildInventory();
+            this.data.getPlayer().updateInventory();
         }
     }
 
     @Override
+    @EventHandler
     public void onThisInventoryClose(final InventoryCloseEvent e) {
         if (e.getInventory().getHolder() instanceof StatGuiHolder &&
             e.getPlayer().getUniqueId() == this.uuid) {
@@ -147,6 +268,7 @@ public class StatsGui extends Gui implements Listener {
     }
 
     @Override
+    @EventHandler
     public void onThisInventoryOwnerLeave(final PlayerQuitEvent e) {
         if (e.getPlayer().getUniqueId() == this.uuid) {
             HandlerList.unregisterAll(this);

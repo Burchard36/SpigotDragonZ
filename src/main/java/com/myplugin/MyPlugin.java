@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.command.commands.RaceCommand;
+import com.myplugin.command.commands.TalentPointsCommand;
 import com.myplugin.events.ExperienceHandler;
 import com.myplugin.events.MobSpawnManager;
 import com.myplugin.events.PlayerAttackEvent;
@@ -60,6 +61,8 @@ public final class MyPlugin extends JavaPlugin implements Listener {
 
         Logger.debug("Loading command RaceCommand");
         new RaceCommand(this);
+        Logger.debug("Loading command TalentPointsCommand");
+        new TalentPointsCommand(this);
     }
 
     @Override

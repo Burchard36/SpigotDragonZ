@@ -36,7 +36,7 @@ public class PlayerData implements Listener {
     private transient DefaultTalentPoints playerDefaults = null;
     private transient PerLevelIncrements perLvl = null;
 
-    private transient PlayerTalentPoints playerTalentPoints;
+    public transient PlayerTalentPoints playerTalentPoints;
     private transient PlayerCurrentData playerCurrentData;
 
     public PlayerData(final JsonObject currentData,
@@ -226,6 +226,12 @@ public class PlayerData implements Listener {
         return maxExp;
     }
 
+    public final void spendTalentPoint() {
+        this.playerTalentPoints.currentTalentPoints -= 1;
+        if (this.playerTalentPoints.currentTalentPoints < 0) this.playerTalentPoints.currentTalentPoints = 0;
+        this.triggerCacheUpdate();
+    }
+
     public final int removeHealth(final int amt) {
         int healthLeft = this.getCurrentHealth() - amt;
         if (healthLeft < 0) healthLeft = 0;
@@ -250,7 +256,7 @@ public class PlayerData implements Listener {
     }
 
     public final void addStrength(final int amtToAdd) {
-        int current = this.getStrength();
+        int current = this.playerTalentPoints.strengthTalentPoints;
         current += amtToAdd;
         this.setStrength(current);
         this.triggerCacheUpdate();
@@ -262,7 +268,7 @@ public class PlayerData implements Listener {
     }
 
     public final void addMaxHealth(final int amtToAdd) {
-        int current = this.getMaxHealth() + amtToAdd;
+        int current = this.playerTalentPoints.healthPoints + amtToAdd;
         this.setMaxHealth(current);
         this.triggerCacheUpdate();
     }
@@ -272,7 +278,7 @@ public class PlayerData implements Listener {
         this.triggerCacheUpdate();
     }
 
-    public final void addPlayerHealth(final int health) {
+    public final void addCurrentHealth(final int health) {
         int current = this.getCurrentHealth() + health;
         this.setCurrentHealth(current);
         this.triggerCacheUpdate();
@@ -283,8 +289,8 @@ public class PlayerData implements Listener {
         this.triggerCacheUpdate();
     }
 
-    public final void addPlayerMaxKi(final int amount) {
-        int current = this.getMaxKi() + amount;
+    public final void addMaxKi(final int amount) {
+        int current = this.playerTalentPoints.maxKiPoints + amount;
         this.setMaxKi(current);
         this.triggerCacheUpdate();
     }
@@ -294,7 +300,7 @@ public class PlayerData implements Listener {
         this.triggerCacheUpdate();
     }
 
-    public final void addPlayerKi(final int amount) {
+    public final void addCurrentKi(final int amount) {
         int current = this.getCurrentKi() + amount;
         this.setCurrentKi(current);
         this.triggerCacheUpdate();
@@ -305,8 +311,8 @@ public class PlayerData implements Listener {
         this.triggerCacheUpdate();
     }
 
-    public final void addPlayerKiPower(final int amt) {
-        int current = this.getKiPower() + amt;
+    public final void addKiPower(final int amt) {
+        int current = this.playerTalentPoints.kiPowerPoints + amt;
         this.setKiPower(current);
         this.triggerCacheUpdate();
     }
@@ -317,7 +323,7 @@ public class PlayerData implements Listener {
     }
 
     public final void addMaxStamina(final int amount) {
-        int current = this.getMaxStamina() + amount;
+        int current = this.playerTalentPoints.maxStaminaPoints + amount;
         this.setMaxStamina(current);
         this.triggerCacheUpdate();
     }
@@ -339,7 +345,7 @@ public class PlayerData implements Listener {
     }
 
     public final void addDefense(final int amt) {
-        int current = this.getDefense() + amt;
+        int current = this.playerTalentPoints.defensePoints + amt;
         this.setDefense(current);
         this.triggerCacheUpdate();
     }
@@ -365,6 +371,7 @@ public class PlayerData implements Listener {
     public final void addLevel() {
         final int level = this.getLevel() + 1;
         this.playerCurrentData.currentLevel += 1;
+        this.playerTalentPoints.currentTalentPoints += this.perLvl.talentPoints;
         if (this.getPlayer() != null) {
             this.getPlayer().sendMessage(Component.text(ofString("&aSuccessfully leveled up to level: &b" + level)));
         }
