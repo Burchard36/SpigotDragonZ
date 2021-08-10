@@ -1,14 +1,19 @@
-package com.myplugin.lib.data.json;
+package com.myplugin.lib.json.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.config.enums.ConfigPath;
-import com.myplugin.lib.data.json.config.enums.PlayerProperty;
-import com.myplugin.lib.data.json.config.enums.Race;
+import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
+import com.myplugin.lib.json.config.enums.ConfigPath;
+import com.myplugin.lib.json.config.enums.PlayerProperty;
+import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
+import com.myplugin.lib.json.data.player.PlayerCurrentData;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.data.player.PlayerTalentPoints;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -89,7 +94,7 @@ public class PlayerDataManager implements Listener {
                     return;
                 }
                 final PlayerData playerData = getPlayerData(p.getUniqueId());
-                if (playerData.getPlayerRace() == Race.NONE) {
+                if (playerData.getRace() == Race.NONE) {
                     p.sendMessage(Component.text(ofString("&eYou have not selected your race yet! Type &6/race&e to select your race!")));
                 } else this.cancel();
             }
@@ -98,8 +103,6 @@ public class PlayerDataManager implements Listener {
 
     private void setConfigValues() {
         this.saveTime = this.plugin.getConfig().getInt(ConfigPath.SAVE_CACHE_INTERVAL.toString());
-
-
     }
 
     public final void savePlayerAsync(final UUID uuidOfPlayer, final PlayerData data) {
@@ -137,6 +140,7 @@ public class PlayerDataManager implements Listener {
                     final PlayerData data = this.getDefaultData(uuidOfPlayer);
                     final FileWriter writer = new FileWriter(file);
                     gson.toJson(data, writer);
+                    data.init(this.plugin, uuidOfPlayer);
                     this.playerCache.put(uuidOfPlayer, data);
                     Logger.log("Successfully created PlayerData file for player with UUID: &e" + uuidOfPlayer.toString());
                     writer.close();
@@ -181,23 +185,9 @@ public class PlayerDataManager implements Listener {
     }
 
     private PlayerData getDefaultData(final UUID uuid) {
-        final JsonObject playerStats = new JsonObject();
-        playerStats.addProperty(PlayerProperty.RACE.toString(), Race.NONE.toString());
-        playerStats.addProperty(PlayerProperty.CURRENT_KI.toString(), 0);
-        playerStats.addProperty(PlayerProperty.CURRENT_HEALTH.toString(), 0);
-        playerStats.addProperty(PlayerProperty.CURRENT_STAMINA.toString(), 0);
-        playerStats.addProperty(PlayerProperty.LEVEL.toString(), 1);
-        playerStats.addProperty(PlayerProperty.CURRENT_EXP.toString(), 0);
-        final JsonObject talentPoints = new JsonObject();
-        talentPoints.addProperty(PlayerProperty.TALENT_POINTS_SPENT.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.TALENT_POINTS.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.STRENGTH.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.MAX_KI.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.MAX_HEALTH.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.DEFENSE.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.KI_POWER.toString(), 0);
-        talentPoints.addProperty(PlayerProperty.MAX_STAMINA.toString(), 0);
+        final JsonObject currentData = this.gson.toJsonTree(new PlayerCurrentData(), PlayerCurrentData.class).getAsJsonObject();
+        final JsonObject talentPoints = this.gson.toJsonTree(new PlayerTalentPoints(), PlayerTalentPoints.class).getAsJsonObject();
 
-        return new PlayerData(playerStats, talentPoints, this.plugin, uuid);
+        return new PlayerData(currentData, talentPoints, this.plugin, uuid);
     }
 }

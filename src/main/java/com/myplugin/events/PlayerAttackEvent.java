@@ -2,8 +2,8 @@ package com.myplugin.events;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.data.PlayerDataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -50,7 +50,7 @@ public class PlayerAttackEvent implements Listener {
         } else if (mobHitsPlayer) {
             final Player player = (Player) e.getEntity();
             final PlayerData data = this.manager.getPlayerData(player.getUniqueId());
-            Logger.debug("Current Health before hit by mob: " + data.getPlayerHealth());
+            Logger.debug("Current Health before hit by mob: " + data.getCurrentHealth());
             data.applyDamage((int)e.getDamage());
             this.spawnParticle(player);
             Logger.debug("Mob: " + e.getDamager().getType() + " dealt ~"+ e.getDamage()  + " to " + player.getUniqueId().toString());

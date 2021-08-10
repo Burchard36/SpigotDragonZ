@@ -2,8 +2,8 @@ package com.myplugin.command.commands;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.command.DragonBallCommand;
-import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.data.PlayerDataManager;
 import com.myplugin.lib.gui.guis.raceselection.RaceGui;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;

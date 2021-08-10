@@ -2,9 +2,9 @@ package com.myplugin.lib.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.PlayerDataManager;
-import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.config.enums.Race;
+import com.myplugin.lib.json.data.PlayerDataManager;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.gui.Gui;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import net.kyori.adventure.text.Component;
@@ -92,7 +92,7 @@ public class ConfirmRaceGui extends Gui implements Listener {
                 p.closeInventory();
                 final PlayerDataManager manager = this.plugin.getDataManager();
                 final PlayerData data = manager.getPlayerData(p.getUniqueId());
-                data.setPlayerRace(this.race);
+                data.setRace(this.race);
                 data.triggerUpdate();
                 this.plugin.getBarManager().loadPlayerBar(p.getUniqueId());
                 Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(p.getUniqueId(), data));

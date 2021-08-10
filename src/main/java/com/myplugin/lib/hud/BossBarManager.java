@@ -2,9 +2,9 @@ package com.myplugin.lib.hud;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.PlayerDataManager;
-import com.myplugin.lib.data.json.config.enums.Race;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.data.PlayerDataManager;
+import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -38,7 +38,7 @@ public class BossBarManager implements Listener {
     public void playerJoin(final PlayerJoinEvent e) {
         final UUID uuid = e.getPlayer().getUniqueId();
         final PlayerData data = this.manager.getPlayerData(uuid);
-        if (this.playerBars.get(uuid) == null && data.getPlayerRace() != Race.NONE) {
+        if (this.playerBars.get(uuid) == null && data.getRace() != Race.NONE) {
             final BossBar bar = this.createBossBar(uuid);
             bar.addPlayer(e.getPlayer());
             this.playerBars.put(uuid, bar);
@@ -91,8 +91,8 @@ public class BossBarManager implements Listener {
 
     public final BossBar updateBossBar(final PlayerData data,
                                        final BossBar bar) {
-        final int maxHealth = data.getPlayerMaxHealth();
-        final int currentHealth = data.getPlayerHealth();
+        final int maxHealth = data.getMaxHealth();
+        final int currentHealth = data.getCurrentHealth();
         Logger.debug("BossBar maxHealth: " + maxHealth);
         Logger.debug("BossBar currentHealth" + currentHealth);
 

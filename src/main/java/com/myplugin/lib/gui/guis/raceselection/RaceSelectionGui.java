@@ -2,7 +2,7 @@ package com.myplugin.lib.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.config.enums.Race;
+import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.gui.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;

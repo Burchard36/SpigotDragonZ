@@ -1,7 +1,7 @@
-package com.myplugin.lib.data.json.config.configs;
+package com.myplugin.lib.json.config.configs;
 
 import com.google.gson.JsonObject;
-import com.myplugin.lib.data.json.config.enums.ConfigType;
+import com.myplugin.lib.json.config.enums.ConfigType;
 
 public class ServerSettings {
     public String key;

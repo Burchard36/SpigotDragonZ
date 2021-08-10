@@ -2,8 +2,8 @@ package com.myplugin.lib.gui.guis.raceselection;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.config.enums.Race;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.gui.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -36,7 +36,7 @@ public class RaceGui extends Gui implements Listener {
         super(27, ofString("&b&lRace Gui Menu"), new RaceGuiHolder());
         this.plugin = plugin;
         this.data = data;
-        this.playerRace = this.data.getPlayerRace();
+        this.playerRace = this.data.getRace();
         final ItemStack currentRaceItem = this.getCurrentRaceStack();
         this.inventory.setItem(13, currentRaceItem);
         this.fillEmptyWith(this.getBackgroundItem());

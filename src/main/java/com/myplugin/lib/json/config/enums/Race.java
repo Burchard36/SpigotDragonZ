@@ -1,4 +1,4 @@
-package com.myplugin.lib.data.json.config.enums;
+package com.myplugin.lib.json.config.enums;
 
 public enum Race {
     SAIYAN("SAIYAN"),

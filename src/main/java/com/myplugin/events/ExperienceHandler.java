@@ -2,8 +2,8 @@ package com.myplugin.events;
 
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.PlayerData;
-import com.myplugin.lib.data.json.PlayerDataManager;
+import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.data.PlayerDataManager;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,7 +43,7 @@ public class ExperienceHandler implements Listener {
             final MobExp exp = this.vanillaMobs.get(e.getEntityType());
             if (exp.getMax() <= 0 && exp.getMin() <= 0) return;
             final int randExp = this.plugin.getRandom().nextInt(exp.getMax() - exp.getMin()) + exp.getMin();
-            data.addExperience(randExp);
+            data.addCurrentExp(randExp);
             Logger.debug("Player with UUID: " + killer.getUniqueId() + " receive " + randExp + " EXP for killing a " + e.getEntityType().toString());
         }
     }

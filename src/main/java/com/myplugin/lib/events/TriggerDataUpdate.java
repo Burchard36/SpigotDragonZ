@@ -1,6 +1,6 @@
 package com.myplugin.lib.events;
 
-import com.myplugin.lib.data.json.PlayerData;
+import com.myplugin.lib.json.data.player.PlayerData;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

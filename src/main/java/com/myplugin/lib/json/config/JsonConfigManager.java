@@ -1,12 +1,12 @@
-package com.myplugin.lib.data.json.config;
+package com.myplugin.lib.json.config;
 
 import com.google.gson.Gson;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.data.json.config.configs.ServerSettings;
-import com.myplugin.lib.data.json.config.configs.HalfSaiyanConfig;
-import com.myplugin.lib.data.json.config.configs.SaiyanConfig;
-import com.myplugin.lib.data.json.config.enums.ConfigType;
+import com.myplugin.lib.json.config.configs.ServerSettings;
+import com.myplugin.lib.json.config.configs.HalfSaiyanConfig;
+import com.myplugin.lib.json.config.configs.SaiyanConfig;
+import com.myplugin.lib.json.config.enums.ConfigType;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;

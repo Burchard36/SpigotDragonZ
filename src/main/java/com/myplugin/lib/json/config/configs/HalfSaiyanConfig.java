@@ -1,11 +1,11 @@
-package com.myplugin.lib.data.json.config.configs;
+package com.myplugin.lib.json.config.configs;
 
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
-import com.myplugin.lib.data.json.config.configs.defaults.DefaultTalentPoints;
-import com.myplugin.lib.data.json.config.configs.defaults.PerLevelIncrements;
-import com.myplugin.lib.data.json.config.configs.defaults.PerTalentPoint;
-import com.myplugin.lib.data.json.config.enums.ConfigType;
+import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
+import com.myplugin.lib.json.config.configs.defaults.PerLevelIncrements;
+import com.myplugin.lib.json.config.configs.defaults.PerTalentPoint;
+import com.myplugin.lib.json.config.enums.ConfigType;
 
 public class HalfSaiyanConfig {
 

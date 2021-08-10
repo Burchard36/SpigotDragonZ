@@ -1,6 +1,6 @@
 package com.myplugin.lib.gui.guis.stats;
 
-import com.myplugin.lib.data.json.PlayerData;
+import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.gui.Gui;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -33,9 +33,9 @@ public class StatsGui extends Gui implements Listener {
 
         this.data = data;
         this.uuid = this.data.getPlayer().getUniqueId();
-        final ItemStack strengthStack = this.getStrengthDisplayItem(this.data.getPlayerStrength());
-        final ItemStack healthStack = this.getHealthDisplayItem(this.data.getPlayerHealth());
-        final ItemStack defenseStack = this.getDefenseDisplayItem(this.data.getPlayerDefense());
+        final ItemStack strengthStack = this.getStrengthDisplayItem(this.data.getStrength());
+        final ItemStack healthStack = this.getHealthDisplayItem(this.data.getCurrentHealth());
+        final ItemStack defenseStack = this.getDefenseDisplayItem(this.data.getDefense());
     }
 
     private ItemStack getStrengthDisplayItem(final int strength) {
