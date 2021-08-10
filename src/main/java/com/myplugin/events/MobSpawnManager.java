@@ -3,32 +3,34 @@ package com.myplugin.events;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.events.TriggerConfigUpdate;
+import com.myplugin.lib.json.config.configs.MobsConfig;
+import com.myplugin.lib.json.config.configs.mobs.CustomMob;
+import com.myplugin.lib.json.config.configs.mobs.MobRadius;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Bee;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Zombie;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.util.Vector;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
+
+import static com.myplugin.MyPlugin.ofString;
 
 public class MobSpawnManager implements Listener {
 
-    private HashMap<EntityType, MobStat> mobStats;
-    private Set<EntityType> entitySet;
     private final MyPlugin plugin;
+    private HashMap<Vector, List<String>> mobSpawns;
+    private HashMap<String, CustomMob> customMobs;
 
     public MobSpawnManager(final MyPlugin plugin) {
         this.plugin = plugin;
         this.setConfigValues();
-        this.entitySet = this.mobStats.keySet();
 
         Bukkit.getPluginManager().registerEvents(this, this.plugin);
     }
@@ -36,66 +38,72 @@ public class MobSpawnManager implements Listener {
     @EventHandler
     public void onConfigUpdate(final TriggerConfigUpdate e) {
         this.setConfigValues();
-        this.entitySet = this.mobStats.keySet();
     }
 
     @EventHandler
     public void onMobSpawn(final CreatureSpawnEvent e) {
-        final EntityType type = e.getEntityType();
-        if (this.entitySet.contains(type)) {
-            Logger.debug("Loading MobSpawn data for: " + type);
-            final MobStat stat = this.mobStats.get(type);
-            final AttributeInstance attackInstance =  e.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE);
-            final AttributeInstance healthInstance =  e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            if (attackInstance != null) {
-                e.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(stat.getMobAttack());
-            }
+        if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.COMMAND) return;
+        final double locX = e.getLocation().getX();
+        final double locZ = e.getLocation().getZ();
 
-            if (healthInstance != null) {
-                e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(stat.getMobHealth());
-                e.getEntity().setHealth(stat.getMobHealth());
+        this.mobSpawns.keySet().forEach((key) -> {
+            final int maxX = (int)key.getX();
+            final int minX = ~(int)(key.getX() - 1);
+            final int minZ = (int)key.getZ();
+            final double maxZ = ~(int)(key.getZ() + 1);
+            final boolean inMaxMin = locX <= maxX && locZ <= maxZ;
+            final boolean inMinMax = locX <= minX && locZ <= minZ;
+            if (inMaxMin || inMinMax) {
+                this.mobSpawns.get(key).forEach((string) -> {
+                    final CustomMob mob = this.customMobs.get(string);
+                    if (EntityType.valueOf(mob.type) == e.getEntity().getType()) {
+
+                        if (mob.attack != -1) {
+                            e.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(mob.attack);
+                        }
+
+                        if (mob.health != -1) {
+                            e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(mob.health);
+                            e.getEntity().setHealth(mob.health);
+                        }
+
+                        if (mob.spawnAmount > 1) {
+                            for (int x = 1; mob.spawnAmount > x; x++) {
+                                Logger.debug("Spawned one");
+                                e.getEntity().getWorld().spawnEntity(e.getLocation(), e.getEntityType(), CreatureSpawnEvent.SpawnReason.COMMAND, (entity) -> {
+                                    ((LivingEntity)entity).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(mob.attack);
+                                    ((LivingEntity)entity).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(mob.health);
+                                    ((LivingEntity)entity).setHealth(mob.health);
+                                });
+                            }
+                        }
+                    }
+                });
             }
-        }
+        });
     }
 
     private void setConfigValues() {
-        this.mobStats = new HashMap<>();
-        final FileConfiguration config = this.plugin.getConfig();
-        final ConfigurationSection mobSec = config.getConfigurationSection("MobSettings");
-        if (mobSec != null) {
-            for (String key : mobSec.getKeys(false)) {
-                final EntityType type = EntityType.valueOf(key);
-                final ConfigurationSection data = mobSec.getConfigurationSection(key);
-                if (data != null) {
-                    final int health = data.getInt("Health");
-                    final int attack = data.getInt("Attack");
-                    final MobStat stat = new MobStat(health, attack);
-                    this.mobStats.put(type, stat);
-                    Logger.debug("Successfully loaded MobSettings for: " + type.toString());
-                } else Logger.error("Config path MobSettings." + key+ " was null when got");
-            }
-        } else Logger.error("MobSetting value from config was null when got");
+        this.mobSpawns = new HashMap<>();
+        this.customMobs = new HashMap<>();
+        final MobsConfig config = this.plugin.getConfigManager().getMobsConfig();
+        final List<MobRadius> mobRadius = config.getMobRadius();
+        final List<CustomMob> mobs = config.getCustomMobs();
 
-        Logger.log("Successfully loaded " + this.mobStats + " ModStats to override for vanilla spawns!s");
-    }
-
-    private static class MobStat {
-
-        private final int mobHealth;
-        private final int mobAttack;
-
-        public MobStat(final int health, final int attack) {
-            this.mobHealth = health;
-            this.mobAttack = attack;
-        }
-
-        public final int getMobHealth() {
-            return this.mobHealth;
-        }
-
-        public final int getMobAttack() {
-            return this.mobAttack;
-        }
-
+        mobs.forEach((customMob) -> this.customMobs.put(customMob.key, customMob));
+        mobRadius.forEach((radius) -> {
+            final Vector vec = new Vector(radius.x, 0, radius.z);
+            final ArrayList<String> toSpawn = new ArrayList<>();
+            radius.mobs.forEach((mob) -> {
+                final String key = mob.getAsString();
+                mobs.forEach((customMob) -> {
+                    if (customMob.key.equalsIgnoreCase(key)) {
+                        toSpawn.add(key);
+                    } else Logger.error("Trying to load mob with invalid KEY: " + key);
+                });
+            });
+            Logger.log("Loaded MobSpawn radius: " + vec.getX() + ":" + vec.getZ() + ", Loaded: " + toSpawn.size() + " mobs for this region.");
+            this.mobSpawns.put(vec, toSpawn);
+        });
     }
 }

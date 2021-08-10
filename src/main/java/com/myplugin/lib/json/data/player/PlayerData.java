@@ -372,8 +372,10 @@ public class PlayerData implements Listener {
         final int tenPercent = getDoublePercentOf(str, 10);
         final int low = str - tenPercent;
         final int high = str + tenPercent;
-        Logger.debug("Calculated Damage: Str: " + str + " low: " + low + " high: " + high);
-        return this.plugin.getRandom().nextInt(high - low) + low;
+        final int calculated = this.plugin.getRandom().nextInt(high - low) + low;
+        Logger.debug("Calculated Damage: Str: " + str + " low: " + low + " high: " + high + " Total: " + calculated);
+        if (calculated <= 0) return 1;
+        return calculated;
     }
 
     public final void triggerUpdate() {

@@ -1,0 +1,22 @@
+{
+  "radius": [
+    {
+      "x": 1500,
+      "z": -1500,
+      "mobs": [
+        "LEVEL_ONE_ZOMBIE"
+      ]
+    }
+  ],
+
+  "mobs": [
+    {
+      "key": "LEVEL_ONE_ZOMBIE",
+      "type": "ZOMBIE",
+      "attack": 45,
+      "health": 225,
+      "spawnAmount": 3,
+      "displayName": "&b&l[&e&l1&b&l] &a&lWeakened Saibamen"
+    }
+  ]
+}

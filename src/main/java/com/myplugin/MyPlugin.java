@@ -37,6 +37,7 @@ public final class MyPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         this.random = new Random();
         this.gson = new GsonBuilder().setPrettyPrinting().create();
+        INSTANCE = this;
         this.configManager = new JsonConfigManager(this);
         this.saveDefaultConfig();
         this.setConfigValues();
@@ -59,8 +60,6 @@ public final class MyPlugin extends JavaPlugin implements Listener {
 
         Logger.debug("Loading command RaceCommand");
         new RaceCommand(this);
-
-        INSTANCE = this;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.myplugin.lib.json.config;
 import com.google.gson.Gson;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
+import com.myplugin.lib.json.config.configs.MobsConfig;
 import com.myplugin.lib.json.config.configs.ServerSettings;
 import com.myplugin.lib.json.config.configs.HalfSaiyanConfig;
 import com.myplugin.lib.json.config.configs.SaiyanConfig;
@@ -40,15 +41,22 @@ public class JsonConfigManager implements Listener {
         this.validateDirs();
         this.serverConfigs = new HashMap<>();
 
+        final InputStream customMobs = this.plugin.getResource("mobs.json");
         final InputStream serverSettingsStream = this.plugin.getResource("serverConfig.json");
         final InputStream saiyanRaceConfigStream = this.plugin.getResource("saiyanRaceConfig.json");
         final InputStream halfSaiyanRaceConfigStream = this.plugin.getResource("halfSaiyanRaceConfig.json");
 
+        final File customMobsJson = new File(this.plugin.getDataFolder(), "/configs/customMobs.json");
         final File serverConfigJson = new File(this.plugin.getDataFolder(), "/configs/serverConfig.json");
         final File saiyanRaceConfigJson = new File(this.plugin.getDataFolder(), "/configs/saiyanRaceConfig.json");
         final File halfSaiyanRaceConfigJson = new File(this.plugin.getDataFolder(), "/configs/halfSaiyanRaceConfig.json");
 
         try {
+            if (!customMobsJson.exists() && customMobsJson.createNewFile()) {
+                this.writeFile(MobsConfig.class, customMobs, customMobsJson);
+                Logger.log("Successfully created customMobs file.");
+            }
+
             if (!serverConfigJson.exists() && serverConfigJson.createNewFile()) {
                 this.writeFile(ServerSettings.class, serverSettingsStream, serverConfigJson);
                 Logger.log("Successfully created ServerSettings file.");
@@ -74,10 +82,14 @@ public class JsonConfigManager implements Listener {
             this.serverConfigs.put(ConfigType.SAIYAN_CONFIG, saiyanConfig);
             Logger.debug("Successfully loaded Saiyan config file");
 
-            reader= Files.newBufferedReader(halfSaiyanRaceConfigJson.toPath());
+            reader = Files.newBufferedReader(halfSaiyanRaceConfigJson.toPath());
             final HalfSaiyanConfig halfSaiyanConfig = this.gson.fromJson(reader, HalfSaiyanConfig.class);
             this.serverConfigs.put(ConfigType.HALF_SAIYAN_CONFIG, halfSaiyanConfig);
             Logger.debug("Successfully loaded HalfSaiyan config file");
+
+            reader = Files.newBufferedReader(customMobsJson.toPath());
+            final MobsConfig mobsConfig = this.gson.fromJson(reader, MobsConfig.class);
+            this.serverConfigs.put(ConfigType.CUSTOM_MOBS, mobsConfig);
 
         } catch (final IOException ex) {
             Logger.error("Error creating config files");
@@ -118,5 +130,9 @@ public class JsonConfigManager implements Listener {
 
     public final HalfSaiyanConfig getHalfSaiyanConfig() {
         return (HalfSaiyanConfig) this.serverConfigs.get(ConfigType.HALF_SAIYAN_CONFIG);
+    }
+
+    public final MobsConfig getMobsConfig() {
+        return (MobsConfig) this.serverConfigs.get(ConfigType.CUSTOM_MOBS);
     }
 }
