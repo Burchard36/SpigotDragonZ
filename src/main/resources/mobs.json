@@ -16,7 +16,8 @@
       "attack": 45,
       "health": 225,
       "spawnAmount": 3,
-      "displayName": "&b&l[&e&l1&b&l] &a&lWeakened Saibamen"
+      "displayName": "&b&l[&e&l1&b&l] &a&lWeakened Saibamen",
+      "exp": 35
     }
   ]
 }

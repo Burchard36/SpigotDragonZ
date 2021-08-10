@@ -379,10 +379,12 @@ public class PlayerData implements Listener {
     }
 
     public final void triggerUpdate() {
+        this.reloadJson();
         Bukkit.getPluginManager().callEvent(new TriggerDataUpdate(this.uuid, this));
     }
 
     public final void triggerBarUpdate() {
+        this.reloadJson();
         Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(this.uuid, this));
     }
 }

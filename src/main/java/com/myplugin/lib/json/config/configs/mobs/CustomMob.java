@@ -7,5 +7,6 @@ public class CustomMob {
     public int attack;
     public int health;
     public int spawnAmount;
+    public int exp;
     public String displayName;
 }

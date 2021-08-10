@@ -8,6 +8,7 @@ import com.myplugin.lib.json.config.configs.mobs.CustomMob;
 import com.myplugin.lib.json.config.configs.mobs.MobRadius;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,6 +17,8 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -58,29 +61,36 @@ public class MobSpawnManager implements Listener {
                     final CustomMob mob = this.customMobs.get(string);
                     if (EntityType.valueOf(mob.type) == e.getEntity().getType()) {
 
-                        if (mob.attack != -1) {
-                            e.getEntity().getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(mob.attack);
-                        }
-
-                        if (mob.health != -1) {
-                            e.getEntity().getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(mob.health);
-                            e.getEntity().setHealth(mob.health);
-                        }
+                        this.processEntity(e.getEntity(), mob);
 
                         if (mob.spawnAmount > 1) {
-                            for (int x = 1; mob.spawnAmount > x; x++) {
-                                Logger.debug("Spawned one");
-                                e.getEntity().getWorld().spawnEntity(e.getLocation(), e.getEntityType(), CreatureSpawnEvent.SpawnReason.COMMAND, (entity) -> {
-                                    ((LivingEntity)entity).getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(mob.attack);
-                                    ((LivingEntity)entity).getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(mob.health);
-                                    ((LivingEntity)entity).setHealth(mob.health);
-                                });
+                            for (int x = 0; mob.spawnAmount > x; x++) {
+                                e.getEntity().getWorld().spawnEntity(e.getLocation(), e.getEntityType(),
+                                        CreatureSpawnEvent.SpawnReason.COMMAND, (entity) ->
+                                                this.processEntity((LivingEntity) entity, mob));
                             }
                         }
                     }
                 });
             }
         });
+    }
+
+    ;
+    public void processEntity(final LivingEntity e, final CustomMob mob) {
+        if (mob.attack != -1) {
+            e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(mob.attack);
+        }
+
+        if (mob.health != -1) {
+            e.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(mob.health);
+            e.setHealth(mob.health);
+        }
+
+        if (mob.exp != -1) {
+            final NamespacedKey namespacedKey = new NamespacedKey(MyPlugin.INSTANCE, "exp");
+            e.getPersistentDataContainer().set(namespacedKey, PersistentDataType.INTEGER, mob.exp);
+        }
     }
 
     private void setConfigValues() {
