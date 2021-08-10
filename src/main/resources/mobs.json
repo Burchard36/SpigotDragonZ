@@ -4,7 +4,9 @@
       "x": 1500,
       "z": -1500,
       "mobs": [
-        "LEVEL_ONE_ZOMBIE"
+        "LEVEL_ONE_ZOMBIE",
+        "LEVEL_ONE_CREEPER",
+        "LEVEL_ONE_SPIDER"
       ]
     }
   ],
@@ -15,9 +17,39 @@
       "type": "ZOMBIE",
       "attack": 45,
       "health": 225,
-      "spawnAmount": 3,
+      "movementSpeed": 0.28,
+      "attackKnockback": 2,
+      "armor": 3,
+      "armorStrength": 3,
+      "spawnAmount": 2,
       "displayName": "&b&l[&e&l1&b&l] &a&lWeakened Saibamen",
-      "exp": 35
+      "exp": 45
+    },
+    {
+      "key": "LEVEL_ONE_SPIDER",
+      "type": "SPIDER",
+      "attack": 50,
+      "health": 190,
+      "movementSpeed": 0.37,
+      "attackKnockback": 1.5,
+      "armor": 1.5,
+      "armorStrength": 1,
+      "spawnAmount": 2,
+      "displayName": "&b&l[&e&l1&b&l] &a&lOH SH#T A SPIDER",
+      "exp": 55
+    },
+    {
+      "key": "LEVEL_ONE_CREEPER",
+      "type": "CREEPER",
+      "attack": 5,
+      "health": 175,
+      "movementSpeed": 0.38,
+      "attackKnockback": -1,
+      "armor": 5,
+      "armorStrength": 3,
+      "spawnAmount": 2,
+      "displayName": "&b&l[&e&l1&b&l] &a&lDesperate Saibamen",
+      "exp": 60
     }
   ]
 }

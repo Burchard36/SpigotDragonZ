@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
+import com.myplugin.lib.events.TriggerCacheUpdate;
 import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
 import com.myplugin.lib.json.config.enums.ConfigPath;
 import com.myplugin.lib.json.config.enums.PlayerProperty;
@@ -82,6 +83,11 @@ public class PlayerDataManager implements Listener {
         this.setConfigValues();
     }
 
+    @EventHandler
+    public void onTriggerCacheUpdate(final TriggerCacheUpdate e) {
+        this.playerCache.replace(e.getUuid(), e.getData());
+    }
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(final PlayerJoinEvent e) {
         final Player p = e.getPlayer();
@@ -91,6 +97,9 @@ public class PlayerDataManager implements Listener {
             public void run() {
                 if (!p.isOnline()) {
                     this.cancel();
+                    HandlerList.unregisterAll(playerCache.get(p.getUniqueId()));
+                    playerCache.remove(p.getUniqueId());
+                    Logger.log("Cleared Player with UUID: " + p.getUniqueId() + " from the cache");
                     return;
                 }
                 final PlayerData playerData = getPlayerData(p.getUniqueId());

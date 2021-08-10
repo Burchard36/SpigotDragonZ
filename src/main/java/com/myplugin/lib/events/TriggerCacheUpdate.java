@@ -1,29 +1,30 @@
 package com.myplugin.lib.events;
 
 import com.myplugin.lib.json.data.player.PlayerData;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-public class PlayerKilledVanillaMob extends Event implements Cancellable {
+import java.util.UUID;
+
+public class TriggerCacheUpdate extends Event implements Cancellable {
 
     public static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCanceled;
 
-    private final EntityType killed;
+    private final UUID uuid;
     private final PlayerData data;
 
-    public PlayerKilledVanillaMob(final EntityType killed,
+    public TriggerCacheUpdate(final UUID uuid,
                                 final PlayerData data) {
         this.isCanceled = false;
-        this.killed = killed;
+        this.uuid = uuid;
         this.data = data;
     }
 
-    public final EntityType getKilled() {
-        return this.killed;
+    public final UUID getUuid() {
+        return this.uuid;
     }
 
     public final PlayerData getData() {

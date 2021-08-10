@@ -94,8 +94,7 @@ public class ConfirmRaceGui extends Gui implements Listener {
                 final PlayerData data = manager.getPlayerData(p.getUniqueId());
                 data.setRace(this.race);
                 data.triggerUpdate();
-                this.plugin.getBarManager().loadPlayerBar(p.getUniqueId());
-                Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(p.getUniqueId(), data));
+                data.triggerBarUpdate();
                 p.sendMessage(Component.text(ofString("&aSuccessfully set you're race to &b" + this.race.toString().toLowerCase())));
             } else if (slot == 14) {
                 p.closeInventory();

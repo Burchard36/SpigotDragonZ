@@ -4,7 +4,6 @@ import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.json.data.PlayerDataManager;
-import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.events.TriggerBossBarUpdate;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
@@ -12,9 +11,7 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
@@ -32,18 +29,6 @@ public class BossBarManager implements Listener {
         this.playerBars = new HashMap<>();
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void playerJoin(final PlayerJoinEvent e) {
-        final UUID uuid = e.getPlayer().getUniqueId();
-        final PlayerData data = this.manager.getPlayerData(uuid);
-        if (this.playerBars.get(uuid) == null && data.getRace() != Race.NONE) {
-            final BossBar bar = this.createBossBar(uuid);
-            bar.addPlayer(e.getPlayer());
-            this.playerBars.put(uuid, bar);
-            Logger.debug("Loaded BossBar for joining player with UUID: " + uuid.toString());
-        }
     }
 
     @EventHandler
@@ -64,27 +49,15 @@ public class BossBarManager implements Listener {
         if (bar != null) {
             this.updateBossBar(data, bar);
             this.playerBars.replace(e.getUuid(), bar);
-        } else Logger.warn("Trying to update BossBar when Player does not have one attached to them! Player UUID: " + e.getUuid().toString());
-    }
-
-    /**
-     * Since player by default start with race NONE, and the plugin wont load a player bar
-     * for a player without a Race, this method will be called once the user picks his/her race
-     * that way they get a player bar without needing to relog
-     * @param uuid
-     */
-    public void loadPlayerBar(final UUID uuid) {
-        final Player p = Bukkit.getPlayer(uuid);
-        if (this.playerBars.get(uuid) == null && p != null) {
-            final BossBar bar = this.createBossBar(uuid);
-            bar.addPlayer(p);
-            this.playerBars.put(uuid, bar);
-            Logger.debug("Successfully added BossBar for player with UUID: " + uuid.toString() + " (Loaded by loadPlayerBar)");
+        } else {
+            bar = this.createBossBar(data);
+            bar.addPlayer(data.getPlayer());
+            this.playerBars.put(e.getUuid(), bar);
+            Logger.debug("Loaded BossBar for joining player with UUID: " + e.getUuid().toString());
         }
     }
 
-    public final BossBar createBossBar(final UUID uuid) {
-        final PlayerData data = this.manager.getPlayerData(uuid);
+    public final BossBar createBossBar(final PlayerData data) {
         final BossBar bar = Bukkit.createBossBar("", BarColor.GREEN, BarStyle.SOLID);
         return this.updateBossBar(data, bar);
     }

@@ -17,9 +17,11 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.*;
 
@@ -76,15 +78,34 @@ public class MobSpawnManager implements Listener {
         });
     }
 
-    ;
     public void processEntity(final LivingEntity e, final CustomMob mob) {
-        if (mob.attack != -1) {
+        if (mob.attack != -1 && e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE) != null) {
             e.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(mob.attack);
         }
 
-        if (mob.health != -1) {
+        if (mob.health != -1 && e.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
             e.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(mob.health);
             e.setHealth(mob.health);
+        }
+
+        if (mob.armor != -1 && e.getAttribute(Attribute.GENERIC_ARMOR) != null) {
+            e.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(mob.armor);
+        }
+
+        if (mob.armorStrength != -1 && e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS) != null) {
+            e.getAttribute(Attribute.GENERIC_ARMOR_TOUGHNESS).setBaseValue(mob.armorStrength);
+        }
+
+        if (mob.movementSpeed != -1 && e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED) != null) {
+            e.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(mob.movementSpeed);
+        }
+
+        if (!mob.displayName.equalsIgnoreCase("")) {
+            e.setCustomName(ofString(mob.displayName));
+        }
+
+        if (e.getType() == EntityType.CREEPER) {
+            ((Creeper) e).setExplosionRadius(mob.attack);
         }
 
         if (mob.exp != -1) {
@@ -106,11 +127,11 @@ public class MobSpawnManager implements Listener {
             final ArrayList<String> toSpawn = new ArrayList<>();
             radius.mobs.forEach((mob) -> {
                 final String key = mob.getAsString();
-                mobs.forEach((customMob) -> {
-                    if (customMob.key.equalsIgnoreCase(key)) {
+                if (this.customMobs.containsKey(key)) {
+                    if (!toSpawn.contains(key)) {
                         toSpawn.add(key);
-                    } else Logger.error("Trying to load mob with invalid KEY: " + key);
-                });
+                    } else Logger.error("Attempting to add the same mob inside of the same radius. mob key: " + key);
+                } else Logger.error("Trying to load non-existent mob: " + key);
             });
             Logger.log("Loaded MobSpawn radius: " + vec.getX() + ":" + vec.getZ() + ", Loaded: " + toSpawn.size() + " mobs for this region.");
             this.mobSpawns.put(vec, toSpawn);

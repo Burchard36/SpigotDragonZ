@@ -97,6 +97,8 @@ public class RaceGui extends Gui implements Listener {
                 p.closeInventory();
                 p.openInventory(new RaceSelectionGui(this.plugin, this.data.getPlayer().getUniqueId()).inventory);
             }
+
+            HandlerList.unregisterAll(this);
         }
     }
 

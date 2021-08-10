@@ -4,15 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
+import com.myplugin.lib.events.*;
 import com.myplugin.lib.json.config.JsonConfigManager;
 import com.myplugin.lib.json.config.configs.HalfSaiyanConfig;
 import com.myplugin.lib.json.config.configs.SaiyanConfig;
 import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
 import com.myplugin.lib.json.config.configs.defaults.PerLevelIncrements;
 import com.myplugin.lib.json.config.configs.defaults.PerTalentPoint;
-import com.myplugin.lib.events.TriggerBossBarUpdate;
-import com.myplugin.lib.events.TriggerConfigUpdate;
-import com.myplugin.lib.events.TriggerDataUpdate;
 import com.myplugin.lib.json.config.enums.PlayerProperty;
 import com.myplugin.lib.json.config.enums.Race;
 import net.kyori.adventure.text.Component;
@@ -61,6 +59,7 @@ public class PlayerData implements Listener {
         this.playerTalentPoints = this.plugin.getGson().fromJson(this.talentPoints, PlayerTalentPoints.class);
         this.playerCurrentData = this.plugin.getGson().fromJson(this.currentData, PlayerCurrentData.class);
         this.setConfigValues();
+        this.triggerBarUpdate();
     }
 
     @EventHandler
@@ -236,94 +235,113 @@ public class PlayerData implements Listener {
 
     public void applyDamage(final int incomingDamage) {
         int damageDealt = incomingDamage - (this.getDefense() / 2);
-        if (damageDealt <=0) damageDealt = 1;
+        if (damageDealt <= 0) damageDealt = 1;
         int healthLeft = this.removeHealth(damageDealt);
         if (healthLeft <= 0) {
             this.reset(true);
         }
-        Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(this.uuid, this));
+        this.triggerBarUpdate();
+        this.triggerCacheUpdate();
     }
 
     public final void setStrength(final int strength) {
         this.playerTalentPoints.strengthTalentPoints = strength;
+        this.triggerCacheUpdate();
     }
 
     public final void addStrength(final int amtToAdd) {
         int current = this.getStrength();
         current += amtToAdd;
         this.setStrength(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setMaxHealth(final int health) {
         this.playerTalentPoints.healthPoints = health;
+        this.triggerCacheUpdate();
     }
 
-    public final void addPlayerMaxHealth(final int amtToAdd) {
+    public final void addMaxHealth(final int amtToAdd) {
         int current = this.getMaxHealth() + amtToAdd;
         this.setMaxHealth(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setCurrentHealth(final int health) {
         this.playerCurrentData.currentHealth = health;
+        this.triggerCacheUpdate();
     }
 
     public final void addPlayerHealth(final int health) {
         int current = this.getCurrentHealth() + health;
         this.setCurrentHealth(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setMaxKi(final int maxKi) {
         this.playerTalentPoints.maxKiPoints = maxKi;
+        this.triggerCacheUpdate();
     }
 
     public final void addPlayerMaxKi(final int amount) {
         int current = this.getMaxKi() + amount;
         this.setMaxKi(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setCurrentKi(final int currentKi) {
         this.playerCurrentData.currentKi = currentKi;
+        this.triggerCacheUpdate();
     }
 
     public final void addPlayerKi(final int amount) {
         int current = this.getCurrentKi() + amount;
         this.setCurrentKi(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setKiPower(final int kiPower) {
         this.playerTalentPoints.kiPowerPoints = kiPower;
+        this.triggerCacheUpdate();
     }
 
     public final void addPlayerKiPower(final int amt) {
         int current = this.getKiPower() + amt;
         this.setKiPower(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setMaxStamina(final int maxStam) {
         this.playerTalentPoints.maxStaminaPoints = maxStam;
+        this.triggerCacheUpdate();
     }
 
     public final void addMaxStamina(final int amount) {
         int current = this.getMaxStamina() + amount;
         this.setMaxStamina(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setCurrentStamina(final int amount) {
         this.playerCurrentData.currentStamina = amount;
+        this.triggerCacheUpdate();
     }
 
     public final void addCurrentStamina(final int amount) {
         int current = this.getCurrentStamina() + amount;
         this.setCurrentStamina(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setDefense(final int defense) {
         this.playerTalentPoints.defensePoints = defense;
+        this.triggerCacheUpdate();
     }
 
     public final void addDefense(final int amt) {
         int current = this.getDefense() + amt;
         this.setDefense(current);
+        this.triggerCacheUpdate();
     }
 
     public final void setCurrentExp(final int amt) {
@@ -340,6 +358,8 @@ public class PlayerData implements Listener {
                 this.addCurrentExp(leftOver);
             } else this.setCurrentExp(leftOver);
         } else this.setCurrentExp(current);
+
+        this.triggerCacheUpdate();
     }
 
     public final void addLevel() {
@@ -348,6 +368,7 @@ public class PlayerData implements Listener {
         if (this.getPlayer() != null) {
             this.getPlayer().sendMessage(Component.text(ofString("&aSuccessfully leveled up to level: &b" + level)));
         }
+        this.triggerCacheUpdate();
     }
 
     public final void setRace(final Race race) {
@@ -355,7 +376,6 @@ public class PlayerData implements Listener {
         this.setConfigValues();
         this.reset(false);
         this.triggerUpdate();
-        this.triggerBarUpdate();;
     }
 
     public final void reset(final boolean killPlayer) {
@@ -363,6 +383,7 @@ public class PlayerData implements Listener {
         this.setCurrentHealth(this.getMaxHealth());
         this.setCurrentKi(this.getMaxKi());
         this.setCurrentStamina(this.getMaxExp());
+        this.triggerCacheUpdate();
         if (killPlayer && p != null) {
             p.setHealth(0D);
         }
@@ -381,11 +402,17 @@ public class PlayerData implements Listener {
 
     public final void triggerUpdate() {
         this.reloadJson();
+        this.triggerCacheUpdate();
         Bukkit.getPluginManager().callEvent(new TriggerDataUpdate(this.uuid, this));
     }
 
     public final void triggerBarUpdate() {
         this.reloadJson();
         Bukkit.getPluginManager().callEvent(new TriggerBossBarUpdate(this.uuid, this));
+    }
+
+    public final void triggerCacheUpdate() {
+        this.reloadJson();
+        Bukkit.getPluginManager().callEvent(new TriggerCacheUpdate(this.uuid, this));
     }
 }
