@@ -236,6 +236,7 @@ public class PlayerData implements Listener {
 
     public void applyDamage(final int incomingDamage) {
         int damageDealt = incomingDamage - (this.getDefense() / 2);
+        if (damageDealt <=0) damageDealt = 1;
         int healthLeft = this.removeHealth(damageDealt);
         if (healthLeft <= 0) {
             this.reset(true);
