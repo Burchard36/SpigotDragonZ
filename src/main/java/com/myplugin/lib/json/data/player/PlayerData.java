@@ -57,7 +57,9 @@ public class PlayerData implements Listener {
         this.playerTalentPoints = this.plugin.getGson().fromJson(this.talentPoints, PlayerTalentPoints.class);
         this.playerCurrentData = this.plugin.getGson().fromJson(this.currentData, PlayerCurrentData.class);
         this.setConfigValues();
-        this.triggerBarUpdate();
+        if (this.getRace() != Race.NONE) {
+            this.triggerBarUpdate();
+        }
     }
 
     @EventHandler
@@ -104,6 +106,10 @@ public class PlayerData implements Listener {
 
     public final Player getPlayer() {
         return Bukkit.getPlayer(this.uuid);
+    }
+
+    public final UUID getUuid() {
+        return this.uuid;
     }
 
     public final int getStrength() {

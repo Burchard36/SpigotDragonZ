@@ -32,6 +32,8 @@ public class ExperienceHandler implements Listener {
     @EventHandler
     public void playerKill(final EntityDeathEvent e) {
         if (e.getEntity().getKiller() == null) return;
+
+        e.getEntity().getKiller().setResourcePack("url", "");
         final LivingEntity entity = e.getEntity();
         final NamespacedKey key = new NamespacedKey(this.plugin, "exp");
         final PersistentDataContainer container = entity.getPersistentDataContainer();

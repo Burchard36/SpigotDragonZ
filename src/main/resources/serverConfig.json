@@ -2,5 +2,10 @@
   "key": "SERVER_SETTINGS",
   "cache": {
     "saveIntervalInMinutes": 5
+  },
+
+  "resourcePack": {
+    "resourceUrl": "",
+    "resourceHash": ""
   }
 }

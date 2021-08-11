@@ -4,6 +4,7 @@ public enum ConfigType {
     SERVER_SETTINGS,
     SAIYAN_CONFIG,
     HALF_SAIYAN_CONFIG,
-    CUSTOM_MOBS
+    CUSTOM_MOBS,
+    QUESTS_CONFIG
 
 }

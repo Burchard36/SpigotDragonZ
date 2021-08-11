@@ -3,10 +3,7 @@ package com.myplugin.lib.json.config;
 import com.google.gson.Gson;
 import com.myplugin.MyPlugin;
 import com.myplugin.lib.Logger;
-import com.myplugin.lib.json.config.configs.MobsConfig;
-import com.myplugin.lib.json.config.configs.ServerSettings;
-import com.myplugin.lib.json.config.configs.HalfSaiyanConfig;
-import com.myplugin.lib.json.config.configs.SaiyanConfig;
+import com.myplugin.lib.json.config.configs.*;
 import com.myplugin.lib.json.config.enums.ConfigType;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import org.bukkit.Bukkit;
@@ -41,20 +38,27 @@ public class JsonConfigManager implements Listener {
         this.validateDirs();
         this.serverConfigs = new HashMap<>();
 
-        final InputStream customMobs = this.plugin.getResource("mobs.json");
+        final InputStream customMobsStream = this.plugin.getResource("mobs.json");
+        final InputStream questsStream = this.plugin.getResource("quests.json");
         final InputStream serverSettingsStream = this.plugin.getResource("serverConfig.json");
         final InputStream saiyanRaceConfigStream = this.plugin.getResource("saiyanRaceConfig.json");
         final InputStream halfSaiyanRaceConfigStream = this.plugin.getResource("halfSaiyanRaceConfig.json");
 
         final File customMobsJson = new File(this.plugin.getDataFolder(), "/configs/customMobs.json");
+        final File questsJson = new File(this.plugin.getDataFolder(), "/configs/quests.json");
         final File serverConfigJson = new File(this.plugin.getDataFolder(), "/configs/serverConfig.json");
         final File saiyanRaceConfigJson = new File(this.plugin.getDataFolder(), "/configs/saiyanRaceConfig.json");
         final File halfSaiyanRaceConfigJson = new File(this.plugin.getDataFolder(), "/configs/halfSaiyanRaceConfig.json");
 
         try {
             if (!customMobsJson.exists() && customMobsJson.createNewFile()) {
-                this.writeFile(MobsConfig.class, customMobs, customMobsJson);
+                this.writeFile(MobsConfig.class, customMobsStream, customMobsJson);
                 Logger.log("Successfully created customMobs file.");
+            }
+
+            if (!questsJson.exists() && questsJson.createNewFile()) {
+                this.writeFile(QuestsConfig.class, questsStream, questsJson);
+                Logger.log("Successfully created quests file.");
             }
 
             if (!serverConfigJson.exists() && serverConfigJson.createNewFile()) {
@@ -90,6 +94,10 @@ public class JsonConfigManager implements Listener {
             reader = Files.newBufferedReader(customMobsJson.toPath());
             final MobsConfig mobsConfig = this.gson.fromJson(reader, MobsConfig.class);
             this.serverConfigs.put(ConfigType.CUSTOM_MOBS, mobsConfig);
+
+            reader =  Files.newBufferedReader(questsJson.toPath());
+            final QuestsConfig questsConfig = this.gson.fromJson(reader, QuestsConfig.class);
+            this.serverConfigs.put(ConfigType.QUESTS_CONFIG, questsConfig);
 
         } catch (final IOException ex) {
             Logger.error("Error creating config files");
@@ -134,5 +142,9 @@ public class JsonConfigManager implements Listener {
 
     public final MobsConfig getMobsConfig() {
         return (MobsConfig) this.serverConfigs.get(ConfigType.CUSTOM_MOBS);
+    }
+
+    public final QuestsConfig getQuestsConfig() {
+        return (QuestsConfig) this.serverConfigs.get(ConfigType.QUESTS_CONFIG);
     }
 }

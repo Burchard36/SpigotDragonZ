@@ -19,6 +19,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
@@ -57,8 +58,6 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         Logger.debug("Loading event ExperienceHandler");
         new ExperienceHandler(this);
 
-
-
         Logger.debug("Loading command RaceCommand");
         new RaceCommand(this);
         Logger.debug("Loading command TalentPointsCommand");
@@ -69,6 +68,11 @@ public final class MyPlugin extends JavaPlugin implements Listener {
     public void onDisable() {
         this.dataManager.closeRunnable();
         this.dataManager.saveAllCache(false);
+    }
+
+    @EventHandler
+    public void onJoin(final PlayerJoinEvent e) {
+        /* Will use later */
     }
 
     @EventHandler
