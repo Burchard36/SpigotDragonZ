@@ -3,6 +3,7 @@ package com.myplugin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.myplugin.command.DragonBallCommand;
+import com.myplugin.command.commands.QuestCommand;
 import com.myplugin.command.commands.RaceCommand;
 import com.myplugin.command.commands.TalentPointsCommand;
 import com.myplugin.events.ExperienceHandler;
@@ -62,6 +63,11 @@ public final class MyPlugin extends JavaPlugin implements Listener {
         new RaceCommand(this);
         Logger.debug("Loading command TalentPointsCommand");
         new TalentPointsCommand(this);
+        Logger.debug("Loading command QuestCommand");
+        new QuestCommand(this);
+
+        /* In case server get reloaded, this will ensure players get reloaded */
+        Bukkit.getOnlinePlayers().forEach((p) -> this.dataManager.loadPlayerData(p.getUniqueId()));
     }
 
     @Override

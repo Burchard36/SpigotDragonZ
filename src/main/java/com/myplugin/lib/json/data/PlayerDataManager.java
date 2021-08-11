@@ -138,7 +138,10 @@ public class PlayerDataManager implements Listener {
 
     public void loadPlayerData(final UUID uuidOfPlayer) {
         this.validateDirs();
-        if (this.playerCache.containsKey(uuidOfPlayer)) return;
+        if (this.playerCache.containsKey(uuidOfPlayer)) {
+            this.playerCache.get(uuidOfPlayer).triggerBarUpdate();
+            return;
+        }
         final File file = new File(this.plugin.getDataFolder(), "data/players/" + uuidOfPlayer.toString() + ".json");
         try {
             if (!file.exists()) {

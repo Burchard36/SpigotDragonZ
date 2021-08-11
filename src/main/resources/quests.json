@@ -1,7 +1,7 @@
 {
   "main": [
     {
-      "id": 1,
+      "id": 0,
       "previous": -1,
       "name": "&aKill &b3&a Saibamen &b(&7Level One&b)",
       "description": "&7&oFind and kill &b3&7&o saibamen out in the world",
@@ -22,7 +22,7 @@
       "branchId": 1,
       "quests": [
         {
-          "id": 1,
+          "id": 0,
           "previous": -1,
           "name": "&aKill &b3&a Saibamen &b(&7Level One&b)",
           "description": "&7&oFind and kill &b3&7&o saibamen out in the world",
