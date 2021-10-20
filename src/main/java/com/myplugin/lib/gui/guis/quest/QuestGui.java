@@ -1,6 +1,6 @@
 package com.myplugin.lib.gui.guis.quest;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.gui.Gui;
 import com.myplugin.lib.json.data.player.PlayerData;
 import net.kyori.adventure.text.Component;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class QuestGui extends Gui implements Listener {
 
@@ -39,7 +39,7 @@ public class QuestGui extends Gui implements Listener {
         this.inventory.setItem(14, sideQuestStack);
         this.fillEmptyWith(this.getBackgroundItem());
 
-        Bukkit.getPluginManager().registerEvents(this, MyPlugin.INSTANCE);
+        Bukkit.getPluginManager().registerEvents(this, SpigotDragonZ.INSTANCE);
     }
 
 

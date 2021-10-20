@@ -1,7 +1,7 @@
 package com.myplugin.lib.json.data.player;
 
 import com.google.gson.JsonObject;
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.events.*;
 import com.myplugin.lib.json.config.JsonConfigManager;
@@ -19,7 +19,7 @@ import org.bukkit.event.Listener;
 
 import java.util.UUID;
 
-import static com.myplugin.MyPlugin.*;
+import static com.myplugin.SpigotDragonZ.*;
 
 public class PlayerData implements Listener {
 
@@ -27,7 +27,7 @@ public class PlayerData implements Listener {
     public JsonObject currentData;
     public JsonObject talentPoints;
 
-    private transient MyPlugin plugin;
+    private transient SpigotDragonZ plugin;
     private transient UUID uuid;
 
     private transient PerTalentPoint perTalentPoint = null;
@@ -39,7 +39,7 @@ public class PlayerData implements Listener {
 
     public PlayerData(final JsonObject currentData,
                       final JsonObject talentPoints,
-                      final MyPlugin plugin,
+                      final SpigotDragonZ plugin,
                       final UUID uuid) {
         this.currentData = currentData;
         this.talentPoints = talentPoints;
@@ -50,7 +50,7 @@ public class PlayerData implements Listener {
         this.setConfigValues();
     }
 
-    public void init(final MyPlugin plugin,
+    public void init(final SpigotDragonZ plugin,
                      final UUID uuid) {
         this.plugin = plugin;
         this.uuid = uuid;

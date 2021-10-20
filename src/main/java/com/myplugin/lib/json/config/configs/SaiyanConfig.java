@@ -1,7 +1,7 @@
 package com.myplugin.lib.json.config.configs;
 
 import com.google.gson.JsonObject;
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.json.config.configs.defaults.DefaultTalentPoints;
 import com.myplugin.lib.json.config.configs.defaults.PerLevelIncrements;
 import com.myplugin.lib.json.config.configs.defaults.PerTalentPoint;
@@ -19,14 +19,14 @@ public class SaiyanConfig {
     }
 
     public final DefaultTalentPoints getDefaultTalentPoint() {
-        return MyPlugin.INSTANCE.getGson().fromJson(this.defaultTalentPoints, DefaultTalentPoints.class);
+        return SpigotDragonZ.INSTANCE.getGson().fromJson(this.defaultTalentPoints, DefaultTalentPoints.class);
     }
 
     public final PerLevelIncrements getPerLevelIncrements() {
-        return MyPlugin.INSTANCE.getGson().fromJson(this.perLevelPointIncrements, PerLevelIncrements.class);
+        return SpigotDragonZ.INSTANCE.getGson().fromJson(this.perLevelPointIncrements, PerLevelIncrements.class);
     }
 
     public final PerTalentPoint getPerTalentPoint() {
-        return MyPlugin.INSTANCE.getGson().fromJson(this.perTalentPoint, PerTalentPoint.class);
+        return SpigotDragonZ.INSTANCE.getGson().fromJson(this.perTalentPoint, PerTalentPoint.class);
     }
 }

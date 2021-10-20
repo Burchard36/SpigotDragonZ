@@ -1,6 +1,6 @@
 package com.myplugin.events;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.json.data.PlayerDataManager;
 import com.myplugin.lib.events.TriggerConfigUpdate;
@@ -15,10 +15,10 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class ExperienceHandler implements Listener {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private final PlayerDataManager manager;
 
-    public ExperienceHandler(final MyPlugin plugin) {
+    public ExperienceHandler(final SpigotDragonZ plugin) {
         this.plugin = plugin;
         this.manager = this.plugin.getDataManager();
 

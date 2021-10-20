@@ -14,7 +14,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class SideQuestGui extends Gui implements Listener {
 

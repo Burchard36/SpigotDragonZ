@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public abstract class DragonBallCommand extends BukkitCommand {
 

@@ -1,6 +1,6 @@
 package com.myplugin.command.commands;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.json.data.PlayerDataManager;
@@ -11,14 +11,14 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class RaceCommand extends DragonBallCommand {
 
     private final PlayerDataManager manager;
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
 
-    public RaceCommand(final MyPlugin plugin) {
+    public RaceCommand(final SpigotDragonZ plugin) {
         super("race", "View, create or change race", "/race");
         this.plugin = plugin;
         this.manager = this.plugin.getDataManager();

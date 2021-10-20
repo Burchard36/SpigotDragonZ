@@ -1,7 +1,7 @@
 package com.myplugin.lib.json.config;
 
 import com.google.gson.Gson;
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.json.config.configs.*;
 import com.myplugin.lib.json.config.enums.ConfigType;
@@ -17,11 +17,11 @@ import java.util.HashMap;
 
 public class JsonConfigManager implements Listener {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private final Gson gson;
     private HashMap<ConfigType, Object> serverConfigs;
 
-    public JsonConfigManager(final MyPlugin plugin) {
+    public JsonConfigManager(final SpigotDragonZ plugin) {
         this.plugin = plugin;
         this.gson = this.plugin.getGson();
         this.loadConfigs();
@@ -147,4 +147,6 @@ public class JsonConfigManager implements Listener {
     public final QuestsConfig getQuestsConfig() {
         return (QuestsConfig) this.serverConfigs.get(ConfigType.QUESTS_CONFIG);
     }
+
+
 }

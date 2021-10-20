@@ -1,6 +1,6 @@
 package com.myplugin.lib.hud;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.json.data.PlayerDataManager;
@@ -16,14 +16,14 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class BossBarManager implements Listener {
 
     private final HashMap<UUID, BossBar> playerBars;
     private final PlayerDataManager manager;
 
-    public BossBarManager(final MyPlugin plugin) {
+    public BossBarManager(final SpigotDragonZ plugin) {
         this.manager = plugin.getDataManager();
         this.playerBars = new HashMap<>();
 
@@ -68,7 +68,7 @@ public class BossBarManager implements Listener {
         Logger.debug("BossBar maxHealth: " + maxHealth);
         Logger.debug("BossBar currentHealth" + currentHealth);
 
-        final float percentOf = MyPlugin.getPercentOf(currentHealth, maxHealth);
+        final float percentOf = SpigotDragonZ.getPercentOf(currentHealth, maxHealth);
         Logger.debug("BossBar percent of health " + percentOf);
         bar.setProgress(percentOf);
         if (percentOf >= 0.90) {

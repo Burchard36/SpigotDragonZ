@@ -1,6 +1,6 @@
 package com.myplugin.lib.gui.guis.raceselection;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.json.data.PlayerDataManager;
 import com.myplugin.lib.json.data.player.PlayerData;
@@ -27,15 +27,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class ConfirmRaceGui extends Gui implements Listener {
 
     private final Race race;
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private final UUID uuid;
 
-    public ConfirmRaceGui(final MyPlugin plugin,
+    public ConfirmRaceGui(final SpigotDragonZ plugin,
                           final Race selectedRace,
                           final UUID uuid) {
         super(27, ofString("&b&lConfirm race selection?"), new ConfirmRaceHolder());

@@ -1,6 +1,6 @@
 package com.myplugin.command.commands;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.lib.gui.guis.stats.StatsGui;
 import org.bukkit.command.ConsoleCommandSender;
@@ -8,13 +8,13 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class TalentPointsCommand extends DragonBallCommand {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
 
-    public TalentPointsCommand(final MyPlugin plugin) {
+    public TalentPointsCommand(final SpigotDragonZ plugin) {
         super("points",
                 "Allows you to spend talent points.",
                 "/points");

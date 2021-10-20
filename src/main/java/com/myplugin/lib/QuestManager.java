@@ -1,6 +1,6 @@
 package com.myplugin.lib;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.json.config.configs.QuestsConfig;
 import com.myplugin.lib.json.config.configs.quests.Quest;
@@ -10,11 +10,11 @@ import java.util.HashMap;
 
 public class QuestManager {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private HashMap<Integer, Quest> mainQuests;
     private HashMap<Integer, HashMap<Integer, Quest>> sideQuests;
 
-    public QuestManager(final MyPlugin plugin) {
+    public QuestManager(final SpigotDragonZ plugin) {
         this.plugin = plugin;
     }
 

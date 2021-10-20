@@ -1,8 +1,9 @@
 package com.myplugin.lib.gui.guis.quest;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.gui.Gui;
+import com.myplugin.lib.json.config.configs.QuestsConfig;
 import com.myplugin.lib.json.config.configs.quests.Quest;
 import com.myplugin.lib.json.data.player.PlayerData;
 import org.bukkit.Bukkit;
@@ -18,9 +19,11 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class MainQuestGui extends Gui implements Listener {
 
@@ -34,37 +37,21 @@ public class MainQuestGui extends Gui implements Listener {
         this.data = data;
         this.quests = new HashMap<>();
 
-        final HashMap<Integer, Quest> questMap = MyPlugin.INSTANCE.getConfigManager().getQuestsConfig().getMainQuests();
-        final int questSize = questMap.size();
+        final QuestsConfig questsConfig = SpigotDragonZ.INSTANCE.getConfigManager().getQuestsConfig();
+        final HashMap<Integer, List<Quest>> pageQuests = questsConfig.getMainQuestsByPage();
+        final HashMap<Integer, Inventory> questInventories = new HashMap<>();
 
-        int currentSlot = 9;
-        int currentPage = 0;
-        int i;
-        HashMap<Integer, Quest> pageQuests = new HashMap<>();
-        for (i = 0; i <= (questSize - 1); i++) {
-            if (currentSlot > 17) {
-                Logger.debug("Loaded quest page: " + currentPage + " with " + pageQuests.size() + " quests.");
-                this.quests.put(currentPage, pageQuests);
-                currentSlot = 9;
-                currentPage++;
-            }
-            if (currentSlot == 9) {
-                pageQuests = new HashMap<>();
-            }
+        pageQuests.keySet().forEach((page) -> {
+            new ArrayList<>(pageQuests.values()).get(0).forEach((quest) -> {
+                questInventories.computeIfAbsent(page, v -> Bukkit.createInventory(new MainQuestHolder(), 27));
+                final Inventory inv = questInventories.get(page);
+                inv.addItem(quest.getItemStack());
+            });
+        });
 
-            if (questMap.get(i) != null) {
-                Logger.debug("Loaded quest on page: " + currentPage + " on slot: " + currentSlot);
-                pageQuests.put(currentSlot, questMap.get(i));
-            }
-            currentSlot++;
-        }
+        this.inventory = questInventories.get(1);
 
-        if (currentSlot <= 16 && !pageQuests.isEmpty()) {
-            Logger.debug("Loaded leftover quest page: " + currentPage + " with " + pageQuests.size() + " quests.");
-            this.quests.put(currentPage, pageQuests);
-        }
-
-        Bukkit.getPluginManager().registerEvents(this, MyPlugin.INSTANCE);
+        Bukkit.getPluginManager().registerEvents(this, SpigotDragonZ.INSTANCE);
     }
 
     private HashMap<Integer, ItemStack> getMainQuestStack() {

@@ -1,6 +1,6 @@
 package com.myplugin.events;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.json.data.PlayerDataManager;
@@ -19,7 +19,7 @@ public class PlayerAttackEvent implements Listener {
 
     private final PlayerDataManager manager;
 
-    public PlayerAttackEvent(final MyPlugin plugin) {
+    public PlayerAttackEvent(final SpigotDragonZ plugin) {
         this.manager = plugin.getDataManager();
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }

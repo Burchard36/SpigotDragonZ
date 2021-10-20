@@ -1,6 +1,6 @@
 package com.myplugin.events;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.json.config.configs.MobsConfig;
@@ -13,21 +13,20 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 
 import java.util.*;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class MobSpawnManager implements Listener {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private HashMap<Vector, List<String>> mobSpawns;
     private HashMap<String, CustomMob> customMobs;
 
-    public MobSpawnManager(final MyPlugin plugin) {
+    public MobSpawnManager(final SpigotDragonZ plugin) {
         this.plugin = plugin;
         this.setConfigValues();
 
@@ -103,7 +102,7 @@ public class MobSpawnManager implements Listener {
         }
 
         if (mob.exp != -1) {
-            final NamespacedKey namespacedKey = new NamespacedKey(MyPlugin.INSTANCE, "exp");
+            final NamespacedKey namespacedKey = new NamespacedKey(SpigotDragonZ.INSTANCE, "exp");
             e.getPersistentDataContainer().set(namespacedKey, PersistentDataType.INTEGER, mob.exp);
         }
     }

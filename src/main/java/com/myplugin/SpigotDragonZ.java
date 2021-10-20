@@ -26,7 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.Random;
 
-public final class MyPlugin extends JavaPlugin implements Listener {
+public final class SpigotDragonZ extends JavaPlugin implements Listener {
 
     private Random random;
     private JsonConfigManager configManager;
@@ -34,7 +34,7 @@ public final class MyPlugin extends JavaPlugin implements Listener {
     private BossBarManager barManager;
     public static boolean DEBUG;
     private Gson gson;
-    public static MyPlugin INSTANCE;
+    public static SpigotDragonZ INSTANCE;
 
     @Override
     public void onEnable() {

@@ -1,6 +1,6 @@
 package com.myplugin.lib.gui.guis.stats;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.json.data.player.PlayerData;
 import com.myplugin.lib.gui.Gui;
 import net.kyori.adventure.text.Component;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class StatsGui extends Gui implements Listener {
 
@@ -40,7 +40,7 @@ public class StatsGui extends Gui implements Listener {
         this.rebuildInventory();
         this.fillEmptyWith(this.getBackgroundItem());
 
-        Bukkit.getPluginManager().registerEvents(this, MyPlugin.INSTANCE);
+        Bukkit.getPluginManager().registerEvents(this, SpigotDragonZ.INSTANCE);
     }
 
     private void rebuildInventory() {

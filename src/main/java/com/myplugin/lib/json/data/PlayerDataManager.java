@@ -2,7 +2,7 @@ package com.myplugin.lib.json.data;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.events.TriggerCacheUpdate;
 import com.myplugin.lib.json.config.enums.ConfigPath;
@@ -33,18 +33,18 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class PlayerDataManager implements Listener {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private final Gson gson;
     private final HashMap<UUID, PlayerData> playerCache;
     private final BukkitTask autoSaveTask;
 
     private int saveTime;
 
-    public PlayerDataManager(final MyPlugin plugin) {
+    public PlayerDataManager(final SpigotDragonZ plugin) {
         this.plugin = plugin;
         this.setConfigValues();
         Bukkit.getPluginManager().registerEvents(this, this.plugin);

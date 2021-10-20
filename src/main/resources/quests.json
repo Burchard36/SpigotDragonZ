@@ -4,7 +4,10 @@
       "id": 0,
       "previous": -1,
       "name": "&aKill &b3&a Saibamen &b(&7Level One&b)",
-      "description": "&7&oFind and kill &b3&7&o saibamen out in the world",
+      "material": "DIRT",
+      "description": [
+        "&7&oFind and kill &b3&7&o saibamen out in the world"
+      ],
       "action": {
         "type": "KILL_CUSTOM_MOB",
         "value": "LEVEL_ONE_ZOMBIE"

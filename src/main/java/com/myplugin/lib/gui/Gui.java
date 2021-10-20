@@ -12,11 +12,11 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public abstract class Gui {
 
-    public final Inventory inventory;
+    public Inventory inventory;
 
     public Gui(final int slots, final String name, final InventoryHolder holder) {
         this.inventory = Bukkit.createInventory(holder, slots, Component.text(ofString(name)));

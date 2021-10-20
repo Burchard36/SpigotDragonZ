@@ -1,6 +1,6 @@
 package com.myplugin.lib.gui.guis.raceselection;
 
-import com.myplugin.MyPlugin;
+import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.Logger;
 import com.myplugin.lib.json.config.enums.Race;
 import com.myplugin.lib.gui.Gui;
@@ -24,13 +24,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import static com.myplugin.MyPlugin.ofString;
+import static com.myplugin.SpigotDragonZ.ofString;
 
 public class RaceSelectionGui extends Gui implements Listener {
 
-    private final MyPlugin plugin;
+    private final SpigotDragonZ plugin;
     private final UUID uuid;
-    public RaceSelectionGui(final MyPlugin plugin, final UUID uuid) {
+    public RaceSelectionGui(final SpigotDragonZ plugin, final UUID uuid) {
         super(27, ofString("&b&lRace Selection GUI"), new RaceSelectionHolder());
         this.plugin = plugin;
         this.uuid = uuid;
