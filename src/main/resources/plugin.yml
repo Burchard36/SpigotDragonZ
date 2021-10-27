@@ -1,4 +1,0 @@
-name: SpigotDragonZ
-version: ${project.version}
-main: com.myplugin.SpigotDragonZ
-api-version: 1.16
