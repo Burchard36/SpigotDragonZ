@@ -1,0 +1,6 @@
+name: SpigotDragonZ
+version: '${project.version}'
+main: com.burchard36.SpigotDragonZ
+api-version: 1.17
+authors: [ DaltonBurchard36 ]
+description: Dragon Ball Z plugin for spigotmc
