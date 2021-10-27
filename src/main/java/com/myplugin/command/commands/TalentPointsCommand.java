@@ -3,6 +3,7 @@ package com.myplugin.command.commands;
 import com.myplugin.SpigotDragonZ;
 import com.myplugin.command.DragonBallCommand;
 import com.myplugin.lib.gui.guis.stats.StatsGui;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
@@ -31,5 +32,6 @@ public class TalentPointsCommand extends DragonBallCommand {
     public void onCommand(final Player player, List<String> args) {
         player.openInventory(
                 new StatsGui(this.plugin.getDataManager().getPlayerData(player.getUniqueId())).inventory);
+        player.sendMessage(Component.text(ofString(this.usageMessage)));
     }
 }

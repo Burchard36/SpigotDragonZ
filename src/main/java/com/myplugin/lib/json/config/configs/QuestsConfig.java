@@ -9,7 +9,6 @@ import com.myplugin.lib.json.config.configs.quests.SideQuest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class QuestsConfig {
 
@@ -58,5 +57,9 @@ public class QuestsConfig {
             quests.put(sideQuest.branchId, sideQuest.getSideQuests());
         });
         return quests;
+    }
+
+    public Quest getMainQuest(final int mainQuest) {
+        return this.getMainQuests().get(mainQuest);
     }
 }

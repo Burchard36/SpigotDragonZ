@@ -11,6 +11,7 @@ import com.myplugin.lib.events.TriggerConfigUpdate;
 import com.myplugin.lib.events.TriggerDataUpdate;
 import com.myplugin.lib.json.data.player.PlayerCurrentData;
 import com.myplugin.lib.json.data.player.PlayerData;
+import com.myplugin.lib.json.data.player.PlayerQuests;
 import com.myplugin.lib.json.data.player.PlayerTalentPoints;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -66,6 +67,7 @@ public class PlayerDataManager implements Listener {
 
                 Logger.log("Successfully Auto-Saved data for cached players (Completed in " + seconds + "." + milli + " seconds!)");
             }
+
         }.runTaskTimerAsynchronously(this.plugin, 0, (20 * 60) * this.saveTime);
     }
 
@@ -159,6 +161,7 @@ public class PlayerDataManager implements Listener {
                 final PlayerData playerData = gson.fromJson(reader, PlayerData.class);
                 playerData.init(this.plugin, uuidOfPlayer);
                 this.playerCache.put(uuidOfPlayer, playerData);
+                reader.close();
                 Logger.debug("Successfully loaded PlayerData for UUID: &b" + uuidOfPlayer.toString());
             }
         } catch (final IOException ex) {
@@ -196,6 +199,7 @@ public class PlayerDataManager implements Listener {
     private PlayerData getDefaultData(final UUID uuid) {
         final JsonObject currentData = this.gson.toJsonTree(new PlayerCurrentData(), PlayerCurrentData.class).getAsJsonObject();
         final JsonObject talentPoints = this.gson.toJsonTree(new PlayerTalentPoints(), PlayerTalentPoints.class).getAsJsonObject();
+        final JsonObject playerQuests = this.gson.toJsonTree(new PlayerQuests(), PlayerQuests.class).getAsJsonObject();
 
         return new PlayerData(currentData, talentPoints, this.plugin, uuid);
     }

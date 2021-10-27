@@ -1,4 +1,4 @@
-package com.myplugin.lib;
+package com.myplugin.lib.json.config;
 
 import com.myplugin.SpigotDragonZ;
 import com.myplugin.lib.events.TriggerConfigUpdate;

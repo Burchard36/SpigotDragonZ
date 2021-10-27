@@ -46,6 +46,8 @@ public final class SpigotDragonZ extends JavaPlugin implements Listener {
         this.setConfigValues();
         Bukkit.spigot().getConfig().set("settings.attribute.maxHealth", 10240);
 
+        this.getLogger().info();
+
         Logger.debug("Debug mode is enabled! You will receive a lot more message in your server console now, disable this if you want your outpost cleaner!");
         Logger.debug("Initializing PlayerDataManager. . .");
         this.dataManager = new PlayerDataManager(this);

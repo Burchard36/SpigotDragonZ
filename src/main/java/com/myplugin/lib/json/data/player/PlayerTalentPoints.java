@@ -1,5 +1,7 @@
 package com.myplugin.lib.json.data.player;
 
+import org.bukkit.configuration.file.FileConfiguration;
+
 public class PlayerTalentPoints {
 
     public int strengthTalentPoints;
@@ -19,5 +21,9 @@ public class PlayerTalentPoints {
         this.maxStaminaPoints = 0;
         this.currentTalentPoints = 0;
         this.spentTalentPoints = 0;
+
+        FileConfiguration conf;
+
+        conf.getItemStack()
     }
 }

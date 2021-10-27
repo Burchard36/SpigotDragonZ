@@ -26,6 +26,7 @@ public class PlayerData implements Listener {
     /* Everything here is passed through JSON */
     public JsonObject currentData;
     public JsonObject talentPoints;
+    public JsonObject playerQuests;
 
     private transient SpigotDragonZ plugin;
     private transient UUID uuid;
@@ -36,6 +37,7 @@ public class PlayerData implements Listener {
 
     public transient PlayerTalentPoints playerTalentPoints;
     private transient PlayerCurrentData playerCurrentData;
+    public transient PlayerQuests playerCurrentQuests;
 
     public PlayerData(final JsonObject currentData,
                       final JsonObject talentPoints,
@@ -47,6 +49,7 @@ public class PlayerData implements Listener {
         this.uuid = uuid;
         this.playerTalentPoints = this.plugin.getGson().fromJson(this.talentPoints, PlayerTalentPoints.class);
         this.playerCurrentData = this.plugin.getGson().fromJson(this.currentData, PlayerCurrentData.class);
+        this.playerCurrentQuests = this.plugin.getGson().fromJson(this.playerQuests, PlayerQuests.class);
         this.setConfigValues();
     }
 
@@ -56,6 +59,7 @@ public class PlayerData implements Listener {
         this.uuid = uuid;
         this.playerTalentPoints = this.plugin.getGson().fromJson(this.talentPoints, PlayerTalentPoints.class);
         this.playerCurrentData = this.plugin.getGson().fromJson(this.currentData, PlayerCurrentData.class);
+        this.playerCurrentQuests = this.plugin.getGson().fromJson(this.playerQuests, PlayerQuests.class);
         this.setConfigValues();
         if (this.getRace() != Race.NONE) {
             this.triggerBarUpdate();

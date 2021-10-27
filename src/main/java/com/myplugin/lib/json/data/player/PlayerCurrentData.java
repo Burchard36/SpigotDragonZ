@@ -2,6 +2,7 @@ package com.myplugin.lib.json.data.player;
 
 import com.myplugin.lib.json.config.enums.Race;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PlayerCurrentData {

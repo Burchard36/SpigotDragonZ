@@ -10,7 +10,13 @@
       ],
       "action": {
         "type": "KILL_CUSTOM_MOB",
-        "value": "LEVEL_ONE_ZOMBIE"
+        "value": "LEVEL_ONE_ZOMBIE",
+        "values": [
+          "LEVEL_ONE_ZOMBIE",
+          "LEVEL_TWO_ZOMBIE",
+          "LEVEL_THREE_ZOMBIE"
+        ],
+        "amount": 3
       },
       "rewards": {
         "exp": 200,

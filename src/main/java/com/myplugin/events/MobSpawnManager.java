@@ -105,6 +105,9 @@ public class MobSpawnManager implements Listener {
             final NamespacedKey namespacedKey = new NamespacedKey(SpigotDragonZ.INSTANCE, "exp");
             e.getPersistentDataContainer().set(namespacedKey, PersistentDataType.INTEGER, mob.exp);
         }
+
+        final NamespacedKey mobKey = new NamespacedKey(SpigotDragonZ.INSTANCE, "mob_id");
+        e.getPersistentDataContainer().set(mobKey, PersistentDataType.STRING, mob.key);
     }
 
     private void setConfigValues() {
