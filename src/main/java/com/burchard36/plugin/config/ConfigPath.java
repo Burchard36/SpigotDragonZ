@@ -13,7 +13,7 @@ public class ConfigPath {
      * @param path path to where string i located
      * @return ConfigPath instance
      */
-    public ConfigPath path(final String path) {
+    public static ConfigPath path(final String path) {
         return new ConfigPath(path);
     }
 

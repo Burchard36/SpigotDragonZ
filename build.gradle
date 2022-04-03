@@ -20,6 +20,12 @@ repositories {
 dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs') // Add everything in the libs folder.
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
+
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 def targetJavaVersion = 17

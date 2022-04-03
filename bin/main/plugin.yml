@@ -1,0 +1,5 @@
+name: SpigotDragonZ
+version: '${version}'
+main: com.burchard36.plugin.SpigotDragonZ
+api-version: 1.18
+description: Dragon ball Z in the form of a spigot plugin

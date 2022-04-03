@@ -2,6 +2,9 @@ package com.burchard36.plugin.api.events;
 
 import com.burchard36.json.JsonDataFile;
 import com.burchard36.plugin.data.PlayerData;
+import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -13,8 +16,8 @@ public class PlayerDataLoadedEvent extends Event implements Cancellable {
     private static final HandlerList handlerList = new HandlerList();
     private boolean isCancelled = false;
 
-    private final UUID loadedUuid;
-    private final PlayerData dataFile;
+    @Getter private final UUID playerUuid;
+    @Getter private final PlayerData playerData;
 
     /**
      * Calls after a player data is loaded, cannot be cancelled (Why would you want to do this?)
@@ -22,8 +25,8 @@ public class PlayerDataLoadedEvent extends Event implements Cancellable {
      * @param file PlayerData file that is loaded
      */
     public PlayerDataLoadedEvent(final UUID uuidOfPlayer, final PlayerData file) {
-        this.loadedUuid = uuidOfPlayer;
-        this.dataFile = file;
+        this.playerUuid = uuidOfPlayer;
+        this.playerData = file;
     }
 
     @Override
@@ -45,11 +48,7 @@ public class PlayerDataLoadedEvent extends Event implements Cancellable {
         return handlerList;
     }
 
-    public final UUID getLoadedUuid() {
-        return this.loadedUuid;
-    }
-
-    public final PlayerData getPlayerData() {
-        return this.dataFile;
+    public final Player getPlayer() {
+        return Bukkit.getPlayer(this.getPlayerUuid());
     }
 }

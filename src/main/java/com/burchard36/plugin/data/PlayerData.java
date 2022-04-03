@@ -3,22 +3,24 @@ package com.burchard36.plugin.data;
 import com.burchard36.json.JsonDataFile;
 import com.burchard36.plugin.config.ConfigManager;
 import com.burchard36.plugin.data.types.RaceType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 
 public class PlayerData extends JsonDataFile {
 
-    private final RaceType raceType;
+    @Getter @Setter private RaceType raceType;
     private final ConfigManager configManager;
-    private double playerHealth;
-    private double maxPlayerHealth;
-    private int playerLevel;
-    private int availableSkillPoints;
-    private int strengthSkillPoints;
-    private int defenseSkillPoints;
-    private int healthSkillPoints;
-    private int kiSkillPoints;
-    private int kiPowerSkillPoints;
+    @Getter @Setter private double playerHealth;
+    @Getter @Setter private double maxPlayerHealth;
+    @Getter @Setter private int playerLevel;
+    @Getter @Setter private int availableSkillPoints;
+    @Getter @Setter private int strengthSkillPoints;
+    @Getter @Setter private int defenseSkillPoints;
+    @Getter @Setter private int healthSkillPoints;
+    @Getter @Setter private int kiSkillPoints;
+    @Getter @Setter private int kiPowerSkillPoints;
 
     public PlayerData(final File file,
                       final ConfigManager configManager) {
@@ -36,45 +38,35 @@ public class PlayerData extends JsonDataFile {
         this.kiPowerSkillPoints = 1;
     }
 
-    /**
-     * Gets the RaceType of this player
-     * @return an enum of RaceType
-     */
-    public final RaceType getRaceType() {
-        return this.raceType;
+    ////////////////////////////////////////////////////////////////////////////////
+    // ADDERS
+    ////////////////////////////////////////////////////////////////////////////////
+
+    public final PlayerData addPlayerHealth(final double amt) {
+        this.setPlayerHealth(this.getPlayerHealth() + amt);
+        return this;
     }
 
-    public final int getPlayerLevel() {
-        return this.playerLevel;
+    public final PlayerData addHealthPoints(final int amt) {
+        this.setHealthSkillPoints(this.getHealthSkillPoints() + amt);
+        return this;
     }
 
-    public final int getAvailableSkillPoints() {
-        return this.availableSkillPoints;
+    public final PlayerData addDefensePoints(final int amt) {
+        this.setDefenseSkillPoints(this.getDefenseSkillPoints() + amt);
+        return this;
     }
 
-    public final int getStrengthSkillPoints() {
-        return this.strengthSkillPoints;
+    public final PlayerData addPlayerLevel(final int amt) {
+        this.setPlayerLevel(this.getPlayerLevel() + amt);
+        return this;
     }
 
-    public final int getDefenseSkillPoints() {
-        return this.defenseSkillPoints;
-    }
-
-    public final int getHealthSkillPoints() {
-        return this.healthSkillPoints;
-    }
-
-    public final int getKiSkillPoints() {
-        return this.kiSkillPoints;
-    }
-
-    public final int getKiPowerSkillPoints() {
-        return this.kiPowerSkillPoints;
-    }
+    //////////////////////////////////////////////////////////////////////////////////////
 
     public final long getStrength() {
         return (long) this.configManager.getDefaultConfig().getInt("PlayerSettings.StrengthPerPoint", 5) * this.getStrengthSkillPoints();
     }
 
-    public final long
+
 }

@@ -1,6 +1,8 @@
 package com.burchard36.plugin.config;
 
 import com.burchard36.plugin.SpigotDragonZ;
+import com.burchard36.plugin.api.exceptions.MaterialNotFoundException;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -49,6 +51,16 @@ public class LocalFile {
     public final void setString(final ConfigPath path, String valueToSet) {
         this.config.set(path.get(), valueToSet);
         this.save();
+    }
+
+    public final Material getMaterial(final ConfigPath path, final Material def) {
+        final String materialString = this.getString(path, def.toString()).toUpperCase();
+        final Material resultMaterial = Material.getMaterial(materialString);
+        if (resultMaterial == null) {
+            new MaterialNotFoundException("Material could not be found in your language file! ConfigPath: " + path.get() + ". Material supplied by configuration: " + materialString).printStackTrace();
+        }
+
+        return resultMaterial;
     }
 
 }

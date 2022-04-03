@@ -1,6 +1,7 @@
 package com.burchard36.plugin.config;
 
 import com.burchard36.plugin.SpigotDragonZ;
+import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -9,7 +10,7 @@ import java.io.File;
 public class ConfigManager {
 
     private final SpigotDragonZ plugin;
-    private LocalFile languageFile;
+    @Getter private LocalFile languageFile;
 
     public ConfigManager(final SpigotDragonZ pluginInstance) {
         this.plugin = pluginInstance;
@@ -34,14 +35,6 @@ public class ConfigManager {
                 break;
             }
         }
-    }
-
-    /**
-     * Gets the language file thats currently active
-     * @return LocalFile instance
-     */
-    public final LocalFile getLanguageFile() {
-        return this.languageFile;
     }
 
     /**

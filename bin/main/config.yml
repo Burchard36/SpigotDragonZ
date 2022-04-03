@@ -1,0 +1,16 @@
+# This will set the default language file to use
+# Currently, only support EN_US
+Language: "EN_US"
+
+# Enable this if you want to receive debug logs (This may be spammy, only enable it if you want to receive specific plugin information)
+DebugMode: true
+
+PlayerSettings:
+
+  # How much health should a player get per skill point they get?
+  HealthPerPoint: 10
+
+  # How much more damage should a player get per point in strength?
+  StrengthPerPoint: 5
+
+  DefenseReductionPerPoint:

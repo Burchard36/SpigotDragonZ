@@ -4,13 +4,14 @@ import com.burchard36.Api;
 import com.burchard36.Logger;
 import com.burchard36.plugin.config.ConfigManager;
 import com.burchard36.plugin.data.PlayerDataManager;
+import lombok.Getter;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SpigotDragonZ extends JavaPlugin implements Api {
 
-    private PlayerDataManager dataManager;
-    private ConfigManager configManager;
+    @Getter private PlayerDataManager dataManager;
+    @Getter private ConfigManager configManager;
 
     @Override
     public void onEnable() {
@@ -18,6 +19,7 @@ public final class SpigotDragonZ extends JavaPlugin implements Api {
         Logger.init(this);
         this.configManager = new ConfigManager(this); // Load configs first
         this.dataManager = new PlayerDataManager(this); // afterwards load the data manager
+
     }
 
     @Override
@@ -27,14 +29,6 @@ public final class SpigotDragonZ extends JavaPlugin implements Api {
         HandlerList.unregisterAll(this.dataManager);
 
         this.dataManager = null; // prevents leaks when reloading, GC should clear it but it's a failsafe since a instance is being stored in this class
-    }
-
-    /**
-     * Gets the ConfigManage instance
-     * @return instance of ConfigManager
-     */
-    public ConfigManager getConfigManager() {
-        return this.configManager;
     }
 
     @Override
